@@ -15,12 +15,13 @@ export default async function ProductosPage({
   const params = await searchParams;
   const sort =
     params.orden === "price-asc" || params.orden === "price-desc" ? params.orden : "none";
+  const categoryId = params.categoria ? Number(params.categoria) : undefined;
 
   const [categories, products] = await Promise.all([
     getCategories(),
     getProducts({
       search: params.q,
-      categorySlug: params.categoria,
+      categoryId: Number.isFinite(categoryId) ? categoryId : undefined,
       sort,
     }),
   ]);

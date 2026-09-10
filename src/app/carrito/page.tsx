@@ -33,21 +33,25 @@ export default function CarritoPage() {
 
       <div className="flex flex-col gap-4">
         {items.map(({ product, quantity }) => {
-          const image = product.image_url ?? product.images?.[0] ?? null;
           return (
             <div
               key={product.id}
               className="flex items-center gap-4 rounded-2xl border border-black/5 bg-white p-4 shadow-sm"
             >
               <div className="relative h-20 w-20 shrink-0 rounded-lg bg-gray-100">
-                {image && (
-                  <Image src={image} alt={product.name} fill className="rounded-lg object-contain p-1" />
+                {product.imagen_url && (
+                  <Image
+                    src={product.imagen_url}
+                    alt={product.titulo}
+                    fill
+                    className="rounded-lg object-contain p-1"
+                  />
                 )}
               </div>
 
               <div className="flex-1">
-                <p className="font-semibold text-gray-900">{product.name}</p>
-                {product.brand && <p className="text-sm text-gray-500">{product.brand}</p>}
+                <p className="font-semibold text-gray-900">{product.titulo}</p>
+                {product.marca && <p className="text-sm text-gray-500">{product.marca}</p>}
               </div>
 
               <input
@@ -59,7 +63,7 @@ export default function CarritoPage() {
               />
 
               <span className="w-28 text-right font-semibold text-gray-900">
-                {priceFormatter.format((product.price ?? 0) * quantity)}
+                {priceFormatter.format((product.precio ?? 0) * quantity)}
               </span>
 
               <button

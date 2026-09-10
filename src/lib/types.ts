@@ -1,22 +1,21 @@
 export type Category = {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  image_url: string | null;
-  sort_order: number;
+  id: number;
+  nombre: string;
+  descripcion: string | null;
+  created_at: string;
 };
 
 export type Product = {
-  id: string;
-  category_id: string | null;
-  name: string;
-  brand: string | null;
-  description: string | null;
-  price: number | null;
-  image_url: string | null;
-  images: string[] | null;
-  stock: number;
-  active: boolean;
-  categories?: Category | null;
+  id: number;
+  categoria_id: number | null;
+  titulo: string;
+  marca: string | null;
+  descripcion: string | null;
+  imagen_url: string | null;
+  precio: number | null;
+  stock_fisico: boolean;
+  disponible: boolean;
+  entrega_inmediata: boolean;
+  created_at: string;
+  categorias?: Category | null;
 };

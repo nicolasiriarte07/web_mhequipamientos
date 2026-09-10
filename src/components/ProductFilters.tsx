@@ -34,8 +34,8 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
         >
           <option value="">Todas</option>
           {categories.map((c) => (
-            <option key={c.id} value={c.slug}>
-              {c.name.toUpperCase()}
+            <option key={c.id} value={c.id}>
+              {c.nombre.toUpperCase()}
             </option>
           ))}
         </select>
