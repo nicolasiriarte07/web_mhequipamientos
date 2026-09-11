@@ -1,6 +1,8 @@
+import Image from "next/image";
 import { getCategories } from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
+import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 
 export const revalidate = 60;
 
@@ -9,18 +11,43 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="mx-auto max-w-3xl px-4 pt-16 pb-10 text-center sm:px-6">
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-          Equipamiento comercial
-        </h1>
-        <p className="mt-3 text-lg text-gray-500">Sabemos lo que tu negocio necesita</p>
+      <section className="relative overflow-hidden">
+        {HAS_HERO_IMAGE && (
+          <>
+            <Image
+              src={HERO_IMAGE}
+              alt="MH Equipamientos"
+              fill
+              priority
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/85 via-brand-dark/70 to-background" />
+          </>
+        )}
 
-        <div className="mt-8">
-          <SearchBar />
+        <div
+          className={`relative mx-auto max-w-3xl px-4 pb-10 pt-16 text-center sm:px-6 ${
+            HAS_HERO_IMAGE ? "min-h-[380px] flex flex-col justify-center" : ""
+          }`}
+        >
+          <h1
+            className={`text-4xl font-extrabold tracking-tight sm:text-5xl ${
+              HAS_HERO_IMAGE ? "text-white" : "text-gray-900"
+            }`}
+          >
+            Equipamiento comercial
+          </h1>
+          <p className={`mt-3 text-lg ${HAS_HERO_IMAGE ? "text-white/85" : "text-gray-500"}`}>
+            Sabemos lo que tu negocio necesita
+          </p>
+
+          <div className="mt-8">
+            <SearchBar />
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
         {categories.length === 0 ? (
           <p className="text-center text-gray-500">
             Todavía no hay categorías cargadas en Supabase.
