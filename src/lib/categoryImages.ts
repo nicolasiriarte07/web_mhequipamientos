@@ -13,6 +13,7 @@ const AVAILABLE_IMAGES = new Set<string>([
   "alimentos",
   "exhibicion",
   "hoteleria",
+  "oficina",
 ]);
 
 export function getCategoryImage(nombre: string): string | null {
