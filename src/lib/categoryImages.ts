@@ -7,7 +7,7 @@ function normalize(text: string) {
 
 // Agregá acá el slug de cada categoría a medida que subís su imagen a
 // public/categorias/<slug>.png (ej: "refrigeracion" -> public/categorias/refrigeracion.png).
-const AVAILABLE_IMAGES = new Set<string>(["refrigeracion"]);
+const AVAILABLE_IMAGES = new Set<string>(["refrigeracion", "gastronomia"]);
 
 export function getCategoryImage(nombre: string): string | null {
   const key = normalize(nombre);
