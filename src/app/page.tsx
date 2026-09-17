@@ -23,7 +23,7 @@ export default async function HomePage() {
           HAS_HERO_IMAGE ? "text-white" : "text-gray-900"
         }`}
       >
-        Equipamiento comercial
+        Acompañamos el crecimiento de tu negocio
       </h1>
       <p className={`mt-3 text-lg ${HAS_HERO_IMAGE ? "text-white/85" : "text-gray-500"}`}>
         Sabemos lo que tu negocio necesita
