@@ -3,7 +3,13 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function SearchBar({ initialValue = "" }: { initialValue?: string }) {
+export function SearchBar({
+  initialValue = "",
+  compact = false,
+}: {
+  initialValue?: string;
+  compact?: boolean;
+}) {
   const router = useRouter();
   const [value, setValue] = useState(initialValue);
 
@@ -17,7 +23,9 @@ export function SearchBar({ initialValue = "" }: { initialValue?: string }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center gap-3 rounded-2xl border border-black/5 bg-white px-5 py-4 shadow-sm"
+      className={`flex items-center gap-3 rounded-2xl border border-black/5 bg-white shadow-sm ${
+        compact ? "px-4 py-2.5" : "px-5 py-4"
+      }`}
     >
       <span aria-hidden className="text-gray-400">
         🔍

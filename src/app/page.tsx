@@ -28,7 +28,7 @@ export default async function HomePage() {
         Sabemos lo que tu negocio necesita
       </p>
 
-      <div className="mt-8">
+      <div className="mt-8 hidden sm:block">
         <SearchBar />
       </div>
     </div>
