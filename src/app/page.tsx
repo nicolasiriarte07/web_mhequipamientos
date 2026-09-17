@@ -28,10 +28,10 @@ export default async function HomePage() {
           HAS_HERO_IMAGE ? "text-white" : "text-gray-900"
         }`}
       >
-        Acompañamos el crecimiento de tu negocio
+        MH EQUIPAMIENTOS
       </h1>
       <p className={`mt-3 text-lg ${HAS_HERO_IMAGE ? "text-white/85" : "text-gray-500"}`}>
-        Sabemos lo que tu negocio necesita
+        Acompañamos el crecimiento de tu negocio
       </p>
 
       <div className="mt-8 hidden sm:block">
