@@ -3,6 +3,7 @@ import { getCategories } from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
 import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
+import { Highlights } from "@/components/Highlights";
 
 export const revalidate = 60;
 
@@ -51,6 +52,10 @@ export default async function HomePage() {
       ) : (
         <section>{heroContent}</section>
       )}
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <Highlights />
+      </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
         {categories.length === 0 ? (
