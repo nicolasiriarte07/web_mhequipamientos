@@ -56,12 +56,6 @@ export function ProductCard({ product }: { product: Product }) {
             </span>
           )}
 
-          {product.descripcion && (
-            <p className="line-clamp-3 hidden text-sm text-gray-500 sm:block">
-              {product.descripcion}
-            </p>
-          )}
-
           <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-3">
             <span className="text-base font-bold text-gray-900 sm:text-lg">
               {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
