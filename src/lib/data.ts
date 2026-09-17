@@ -98,3 +98,19 @@ export async function getMonthlyOffers(count = 5): Promise<Product[]> {
   }
   return shuffled.slice(0, count);
 }
+
+export async function getBriketMaster(): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from("productos")
+    .select("*, categorias(*)")
+    .eq("disponible", true)
+    .ilike("marca", "briket")
+    .ilike("titulo", "%master%")
+    .order("precio", { ascending: true });
+
+  if (error) {
+    console.error("Error cargando exhibidoras Briket:", error.message);
+    return [];
+  }
+  return data ?? [];
+}

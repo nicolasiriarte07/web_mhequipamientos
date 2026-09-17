@@ -1,17 +1,21 @@
 import Image from "next/image";
-import { getCategories, getMonthlyOffers } from "@/lib/data";
+import { getCategories, getMonthlyOffers, getBriketMaster } from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
 import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 import { Highlights } from "@/components/Highlights";
 import { BusinessTypes } from "@/components/BusinessTypes";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
-import { MonthlyOffers } from "@/components/MonthlyOffers";
+import { ProductGrid } from "@/components/ProductGrid";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [categories, offers] = await Promise.all([getCategories(), getMonthlyOffers()]);
+  const [categories, offers, briketMaster] = await Promise.all([
+    getCategories(),
+    getMonthlyOffers(),
+    getBriketMaster(),
+  ]);
 
   const heroContent = (
     <div
@@ -71,7 +75,7 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
-        <MonthlyOffers products={offers} />
+        <ProductGrid title="Ofertas del mes" subtitle="Productos con entrega inmediata" products={offers} />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
@@ -82,8 +86,12 @@ export default async function HomePage() {
         <BusinessTypes />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         <ShippingCoverage />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
+        <ProductGrid title="Exhibidoras Briket" subtitle="Línea Master" products={briketMaster} />
       </section>
     </div>
   );
