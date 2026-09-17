@@ -2,6 +2,7 @@ import Image from "next/image";
 
 const INSTAGRAM_URL = "https://www.instagram.com/equipamientos.mh/";
 const WHATSAPP_URL = "https://wa.me/5492923507782";
+const MUNDO_HOGAR_URL = "https://www.mundohogar.com.ar";
 
 export function Footer() {
   return (
@@ -61,8 +62,19 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-white/10 pt-6 text-center text-xs text-white/50">
-          © {new Date().getFullYear()} MH Equipamientos. Todos los derechos reservados.
+        <div className="mt-8 flex flex-col items-center gap-2 border-t border-white/10 pt-6 text-center text-xs text-white/50">
+          <p>© {new Date().getFullYear()} MH Equipamientos. Todos los derechos reservados.</p>
+          <p>
+            Una división de{" "}
+            <a
+              href={MUNDO_HOGAR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-white/70 underline underline-offset-2 hover:text-white"
+            >
+              Mundo Hogar
+            </a>
+          </p>
         </div>
       </div>
     </footer>
