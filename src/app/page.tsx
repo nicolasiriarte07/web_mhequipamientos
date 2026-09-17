@@ -56,14 +56,6 @@ export default async function HomePage() {
       )}
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
-        <Highlights />
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
-        <BusinessTypes />
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         {categories.length === 0 ? (
           <p className="text-center text-gray-500">
             Todavía no hay categorías cargadas en Supabase.
@@ -75,6 +67,14 @@ export default async function HomePage() {
             ))}
           </div>
         )}
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <Highlights />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <BusinessTypes />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
