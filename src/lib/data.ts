@@ -1,7 +1,8 @@
+import { cache } from "react";
 import { supabase } from "@/lib/supabase/client";
 import type { Category, Product } from "@/lib/types";
 
-export async function getCategories(): Promise<Category[]> {
+export const getCategories = cache(async (): Promise<Category[]> => {
   const { data, error } = await supabase
     .from("categorias")
     .select("*")
@@ -12,7 +13,7 @@ export async function getCategories(): Promise<Category[]> {
     return [];
   }
   return data ?? [];
-}
+});
 
 export type ProductFilters = {
   search?: string;

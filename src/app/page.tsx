@@ -23,12 +23,20 @@ export default async function HomePage() {
         HAS_HERO_IMAGE ? "flex min-h-[380px] flex-col justify-center" : ""
       }`}
     >
-      <h1
-        className={`text-4xl font-extrabold tracking-tight sm:text-5xl ${
-          HAS_HERO_IMAGE ? "text-white" : "text-gray-900"
-        }`}
-      >
-        MH EQUIPAMIENTOS
+      <h1 className="flex justify-center">
+        {HAS_HERO_IMAGE ? (
+          <Image
+            src="/logo.png"
+            alt="MH Equipamientos"
+            width={320}
+            height={120}
+            className="h-16 w-auto sm:h-20"
+          />
+        ) : (
+          <span className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+            MH EQUIPAMIENTOS
+          </span>
+        )}
       </h1>
       <p className={`mt-3 text-lg ${HAS_HERO_IMAGE ? "text-white/85" : "text-gray-500"}`}>
         Acompañamos el crecimiento de tu negocio
