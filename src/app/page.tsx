@@ -4,6 +4,7 @@ import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
 import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 import { Highlights } from "@/components/Highlights";
+import { BusinessTypes } from "@/components/BusinessTypes";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
 
 export const revalidate = 60;
@@ -56,6 +57,10 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         <Highlights />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <BusinessTypes />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
