@@ -4,6 +4,7 @@ import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
 import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 import { Highlights } from "@/components/Highlights";
+import { ShippingCoverage } from "@/components/ShippingCoverage";
 
 export const revalidate = 60;
 
@@ -57,7 +58,7 @@ export default async function HomePage() {
         <Highlights />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         {categories.length === 0 ? (
           <p className="text-center text-gray-500">
             Todavía no hay categorías cargadas en Supabase.
@@ -69,6 +70,10 @@ export default async function HomePage() {
             ))}
           </div>
         )}
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
+        <ShippingCoverage />
       </section>
     </div>
   );
