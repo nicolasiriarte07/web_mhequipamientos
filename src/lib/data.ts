@@ -53,3 +53,48 @@ export async function getProducts(filters: ProductFilters = {}): Promise<Product
   }
   return data ?? [];
 }
+
+// PRNG determinístico (mulberry32) para poder "barajar" productos de forma
+// estable durante todo el día, y que cambie solo una vez por día.
+function mulberry32(seed: number) {
+  let s = seed;
+  return function random() {
+    s |= 0;
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function seedFromToday(): number {
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+  let hash = 0;
+  for (let i = 0; i < today.length; i++) {
+    hash = (hash << 5) - hash + today.charCodeAt(i);
+    hash |= 0;
+  }
+  return hash;
+}
+
+export async function getMonthlyOffers(count = 5): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from("productos")
+    .select("*, categorias(*)")
+    .eq("entrega_inmediata", true)
+    .eq("disponible", true);
+
+  if (error) {
+    console.error("Error cargando ofertas del mes:", error.message);
+    return [];
+  }
+
+  const products = data ?? [];
+  const random = mulberry32(seedFromToday());
+  const shuffled = [...products];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
+}

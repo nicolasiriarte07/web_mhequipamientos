@@ -1,16 +1,17 @@
 import Image from "next/image";
-import { getCategories } from "@/lib/data";
+import { getCategories, getMonthlyOffers } from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
 import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 import { Highlights } from "@/components/Highlights";
 import { BusinessTypes } from "@/components/BusinessTypes";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
+import { MonthlyOffers } from "@/components/MonthlyOffers";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const categories = await getCategories();
+  const [categories, offers] = await Promise.all([getCategories(), getMonthlyOffers()]);
 
   const heroContent = (
     <div
@@ -67,6 +68,10 @@ export default async function HomePage() {
             ))}
           </div>
         )}
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <MonthlyOffers products={offers} />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">

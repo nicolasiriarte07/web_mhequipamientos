@@ -27,7 +27,7 @@ export function ProductCard({ product }: { product: Product }) {
         }}
         className="flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition-shadow hover:shadow-md"
       >
-        <div className="relative h-52 w-full bg-gray-100">
+        <div className="relative h-40 w-full bg-gray-100 sm:h-52">
           {product.imagen_url ? (
             <Image
               src={product.imagen_url}
@@ -47,8 +47,8 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        <div className="flex flex-1 flex-col gap-2 p-5">
-          <h3 className="font-semibold text-gray-900">{product.titulo}</h3>
+        <div className="flex flex-1 flex-col gap-2 p-4 sm:p-5">
+          <h3 className="text-sm font-semibold text-gray-900 sm:text-base">{product.titulo}</h3>
 
           {product.marca && (
             <span className="w-fit rounded-full bg-gray-900 px-2.5 py-0.5 text-xs font-medium text-white">
@@ -57,11 +57,13 @@ export function ProductCard({ product }: { product: Product }) {
           )}
 
           {product.descripcion && (
-            <p className="line-clamp-3 text-sm text-gray-500">{product.descripcion}</p>
+            <p className="line-clamp-3 hidden text-sm text-gray-500 sm:block">
+              {product.descripcion}
+            </p>
           )}
 
-          <div className="mt-auto flex items-center justify-between pt-3">
-            <span className="text-lg font-bold text-gray-900">
+          <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-3">
+            <span className="text-base font-bold text-gray-900 sm:text-lg">
               {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
             </span>
             <button
@@ -70,7 +72,7 @@ export function ProductCard({ product }: { product: Product }) {
                 addItem(product);
               }}
               disabled={!product.disponible}
-              className="rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-gray-300"
+              className="whitespace-nowrap rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-gray-300 sm:px-3 sm:py-2 sm:text-sm"
             >
               {product.disponible ? "Agregar" : "No disponible"}
             </button>
