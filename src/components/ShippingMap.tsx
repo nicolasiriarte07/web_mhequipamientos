@@ -7,8 +7,8 @@ const CARHUE_LAT = -37.1667;
 const CARHUE_LON = -62.7667;
 const CARHUE: [number, number] = [CARHUE_LAT, CARHUE_LON];
 
-const FREE_RADIUS_KM = 150;
-const NEGOTIATED_RADIUS_KM = 300;
+const FREE_RADIUS_KM = 120;
+const NEGOTIATED_RADIUS_KM = 250;
 
 function boundsForRadiusKm(radiusKm: number): [[number, number], [number, number]] {
   const latDelta = radiusKm / 110.574;
