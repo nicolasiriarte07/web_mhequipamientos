@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 
@@ -9,11 +10,15 @@ export function Header() {
   return (
     <header className="bg-brand text-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-tight">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-white/15 text-sm">
-            MH
-          </span>
-          mhequipamientos
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/logo.png"
+            alt="MH Equipamientos"
+            width={200}
+            height={75}
+            priority
+            className="h-10 w-auto sm:h-12"
+          />
         </Link>
 
         <Link
