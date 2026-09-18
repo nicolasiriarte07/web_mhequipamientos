@@ -100,6 +100,20 @@ export async function getMonthlyOffers(count = 5): Promise<Product[]> {
   return shuffled.slice(0, count);
 }
 
+export async function getProductById(id: number): Promise<Product | null> {
+  const { data, error } = await supabase
+    .from("productos")
+    .select("*, categorias(*)")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error cargando producto:", error.message);
+    return null;
+  }
+  return data;
+}
+
 export async function getBriketMaster(): Promise<Product[]> {
   const { data, error } = await supabase
     .from("productos")
