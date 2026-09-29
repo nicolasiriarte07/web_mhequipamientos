@@ -22,6 +22,8 @@ export const metadata: Metadata = {
   description: "Sabemos lo que tu negocio necesita",
 };
 
+export const revalidate = 60;
+
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const categories = await getCategories();
 
