@@ -18,6 +18,8 @@ export const getCategories = cache(async (): Promise<Category[]> => {
 export type ProductFilters = {
   search?: string;
   categoryId?: number;
+  brand?: string;
+  immediateOnly?: boolean;
   sort?: "price-asc" | "price-desc" | "none";
 };
 
@@ -36,6 +38,14 @@ export async function getProducts(filters: ProductFilters = {}): Promise<Product
 
   if (filters.categoryId) {
     query = query.eq("categoria_id", filters.categoryId);
+  }
+
+  if (filters.brand) {
+    query = query.eq("marca", filters.brand);
+  }
+
+  if (filters.immediateOnly) {
+    query = query.eq("entrega_inmediata", true);
   }
 
   if (filters.sort === "price-asc") {
@@ -113,6 +123,42 @@ export async function getProductById(id: number): Promise<Product | null> {
   }
   return data;
 }
+
+export async function getRelatedProducts(
+  categoryId: number,
+  excludeId: number,
+  limit = 4
+): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from("productos")
+    .select("*, categorias(*)")
+    .eq("categoria_id", categoryId)
+    .eq("disponible", true)
+    .neq("id", excludeId)
+    .limit(limit);
+
+  if (error) {
+    console.error("Error cargando productos relacionados:", error.message);
+    return [];
+  }
+  return data ?? [];
+}
+
+export const getBrands = cache(async (): Promise<string[]> => {
+  const { data, error } = await supabase
+    .from("productos")
+    .select("marca")
+    .eq("disponible", true)
+    .not("marca", "is", null);
+
+  if (error) {
+    console.error("Error cargando marcas:", error.message);
+    return [];
+  }
+
+  const brands = new Set((data ?? []).map((row) => row.marca as string));
+  return [...brands].sort((a, b) => a.localeCompare(b));
+});
 
 export async function getBriketMaster(): Promise<Product[]> {
   const { data, error } = await supabase

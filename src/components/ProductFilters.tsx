@@ -3,12 +3,20 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Category } from "@/lib/types";
 
-export function ProductFilters({ categories }: { categories: Category[] }) {
+export function ProductFilters({
+  categories,
+  brands,
+}: {
+  categories: Category[];
+  brands: string[];
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const currentCategory = searchParams.get("categoria") ?? "";
+  const currentBrand = searchParams.get("marca") ?? "";
   const currentSort = searchParams.get("orden") ?? "";
+  const immediateOnly = searchParams.get("inmediata") === "1";
 
   function updateParam(key: string, value: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -21,11 +29,11 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-black/5 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col flex-wrap gap-4 rounded-2xl border border-black/5 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
       <label className="flex items-center gap-3 text-sm">
         <span className="flex items-center gap-2 font-medium text-gray-700">
           <span className="h-2 w-2 rounded-full bg-brand" />
-          Filtrar por categoría
+          Categoría
         </span>
         <select
           value={currentCategory}
@@ -36,6 +44,25 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
           {categories.map((c) => (
             <option key={c.id} value={c.id}>
               {c.nombre.toUpperCase()}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="flex items-center gap-3 text-sm">
+        <span className="flex items-center gap-2 font-medium text-gray-700">
+          <span className="h-2 w-2 rounded-full bg-brand" />
+          Marca
+        </span>
+        <select
+          value={currentBrand}
+          onChange={(e) => updateParam("marca", e.target.value)}
+          className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-700"
+        >
+          <option value="">Todas</option>
+          {brands.map((b) => (
+            <option key={b} value={b}>
+              {b}
             </option>
           ))}
         </select>
@@ -55,6 +82,16 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
           <option value="price-asc">Menor a mayor</option>
           <option value="price-desc">Mayor a menor</option>
         </select>
+      </label>
+
+      <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+        <input
+          type="checkbox"
+          checked={immediateOnly}
+          onChange={(e) => updateParam("inmediata", e.target.checked ? "1" : "")}
+          className="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand"
+        />
+        Solo entrega inmediata
       </label>
     </div>
   );

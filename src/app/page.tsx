@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { getCategories, getMonthlyOffers, getBriketMaster } from "@/lib/data";
+import { getCategories, getMonthlyOffers, getBriketMaster, getBrands } from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
 import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 import { Highlights } from "@/components/Highlights";
+import { BrandsStrip } from "@/components/BrandsStrip";
 import { BusinessTypes } from "@/components/BusinessTypes";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
 import { ProductGrid } from "@/components/ProductGrid";
@@ -11,10 +12,11 @@ import { ProductGrid } from "@/components/ProductGrid";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [categories, offers, briketMaster] = await Promise.all([
+  const [categories, offers, briketMaster, brands] = await Promise.all([
     getCategories(),
     getMonthlyOffers(),
     getBriketMaster(),
+    getBrands(),
   ]);
 
   const heroContent = (
@@ -88,6 +90,10 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         <Highlights />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <BrandsStrip brands={brands} />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">

@@ -1,11 +1,17 @@
-import { getCategories, getProducts } from "@/lib/data";
+import { getCategories, getProducts, getBrands } from "@/lib/data";
 import { SearchBar } from "@/components/SearchBar";
 import { ProductFilters } from "@/components/ProductFilters";
 import { ProductCard } from "@/components/ProductCard";
 
 export const revalidate = 30;
 
-type SearchParams = { q?: string; categoria?: string; orden?: string };
+type SearchParams = {
+  q?: string;
+  categoria?: string;
+  marca?: string;
+  orden?: string;
+  inmediata?: string;
+};
 
 export default async function ProductosPage({
   searchParams,
@@ -17,11 +23,14 @@ export default async function ProductosPage({
     params.orden === "price-asc" || params.orden === "price-desc" ? params.orden : "none";
   const categoryId = params.categoria ? Number(params.categoria) : undefined;
 
-  const [categories, products] = await Promise.all([
+  const [categories, brands, products] = await Promise.all([
     getCategories(),
+    getBrands(),
     getProducts({
       search: params.q,
       categoryId: Number.isFinite(categoryId) ? categoryId : undefined,
+      brand: params.marca || undefined,
+      immediateOnly: params.inmediata === "1",
       sort,
     }),
   ]);
@@ -33,7 +42,7 @@ export default async function ProductosPage({
       </div>
 
       <div className="mb-6">
-        <ProductFilters categories={categories} />
+        <ProductFilters categories={categories} brands={brands} />
       </div>
 
       <p className="mb-4 text-sm text-gray-500">
