@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
+import { whatsappUrl } from "@/lib/contact";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 const priceFormatter = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -12,6 +14,17 @@ const priceFormatter = new Intl.NumberFormat("es-AR", {
 
 export default function CarritoPage() {
   const { items, setQuantity, removeItem, total } = useCart();
+
+  const orderMessage = [
+    "Hola! Quiero hacer este pedido:",
+    "",
+    ...items.map(
+      ({ product, quantity }) =>
+        `- ${quantity}x ${product.titulo} — ${priceFormatter.format(product.precio ?? 0)} c/u`
+    ),
+    "",
+    `Total: ${priceFormatter.format(total)}`,
+  ].join("\n");
 
   if (items.length === 0) {
     return (
@@ -77,9 +90,25 @@ export default function CarritoPage() {
         })}
       </div>
 
-      <div className="mt-8 flex items-center justify-between rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-        <span className="text-lg font-semibold text-gray-900">Total</span>
-        <span className="text-2xl font-bold text-brand">{priceFormatter.format(total)}</span>
+      <div className="mt-8 flex flex-col gap-6 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-semibold text-gray-900">Total</span>
+          <span className="text-2xl font-bold text-brand">{priceFormatter.format(total)}</span>
+        </div>
+
+        <a
+          href={whatsappUrl(orderMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1fb659]"
+        >
+          <WhatsAppIcon className="h-5 w-5" />
+          Finalizar pedido por WhatsApp
+        </a>
+        <p className="-mt-3 text-center text-xs text-gray-400">
+          Te vamos a redirigir a WhatsApp con el detalle del pedido para coordinar el pago y la
+          entrega.
+        </p>
       </div>
     </div>
   );
