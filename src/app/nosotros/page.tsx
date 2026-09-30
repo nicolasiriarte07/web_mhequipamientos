@@ -6,31 +6,108 @@ import { Testimonials } from "@/components/Testimonials";
 export const metadata: Metadata = {
   title: "Nosotros | MH Equipamientos",
   description:
-    "Conocé MH Equipamientos: equipamiento comercial y gastronómico en Carhué, provincia de Buenos Aires, con financiación y envíos a toda la región.",
+    "Conocé la historia de Mundo Hogar y MH Equipamientos: más de 30 años acompañando a las familias y comercios de Carhué y la región.",
 };
+
+const TIMELINE = [
+  {
+    year: "1994",
+    title: "Los comienzos en Carhué",
+    text:
+      "Mundo Hogar abre sus puertas en Carhué con un pequeño local dedicado a artículos para el hogar, impulsado por las ganas de crecer junto a la comunidad.",
+  },
+  {
+    year: "1998",
+    title: "Primera mudanza",
+    text:
+      "El crecimiento de la demanda nos lleva a un local más grande dentro de la misma ciudad, ampliando el surtido de productos y marcas.",
+  },
+  {
+    year: "2003",
+    title: "Llegamos a Rivera",
+    text:
+      "Abrimos nuestra primera sucursal fuera de Carhué, en Rivera, llevando la propuesta de Mundo Hogar a más familias de la región.",
+  },
+  {
+    year: "2006",
+    title: "Sucursal en Salliqueló",
+    text:
+      "Seguimos expandiéndonos con la apertura de una nueva sucursal en Salliqueló, consolidando presencia en el sudoeste bonaerense.",
+  },
+  {
+    year: "2013",
+    title: "Un tercer local",
+    text:
+      "Abrimos un tercer punto de venta, reforzando la atención a los clientes de siempre y sumando nuevas líneas de productos.",
+  },
+  {
+    year: "2017",
+    title: "Bahía Blanca",
+    text:
+      "Damos un salto importante con la apertura de una sucursal en Bahía Blanca, llegando a un público aún más amplio.",
+  },
+  {
+    year: "2020",
+    title: "El salto a lo digital",
+    text:
+      "Ante los desafíos del contexto, dimos el salto al comercio digital para seguir cerca de nuestros clientes, sin importar la distancia.",
+  },
+  {
+    year: "2021",
+    title: "Nuestro local actual",
+    text:
+      "Inauguramos nuestro local de 450 m² en Carhué, el espacio más grande de nuestra historia, pensado para ofrecer una mejor experiencia de compra.",
+  },
+  {
+    year: "2025",
+    title: "Nace MH Equipamientos",
+    text:
+      "Lanzamos MH Equipamientos, nuestra división dedicada al equipamiento comercial y gastronómico, para acompañar el crecimiento de los negocios de la región.",
+  },
+];
 
 export default function NosotrosPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
-        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Nosotros</h1>
+        <p className="text-sm font-semibold uppercase tracking-wide text-brand">Desde 1994</p>
+        <h1 className="mt-1 text-2xl font-bold text-gray-900 sm:text-3xl">
+          Más de 30 años creciendo junto a vos
+        </h1>
         <div className="mt-4 space-y-4 text-sm leading-relaxed text-gray-600">
           <p>
-            MH Equipamientos nació en Carhué con un objetivo simple: que equipar un comercio no
-            sea un dolor de cabeza. Somos una división de Mundo Hogar, y desde nuestra base en el
-            corazón de la provincia de Buenos Aires acompañamos a kioscos, supermercados, bares,
-            restaurantes, panaderías, hoteles y emprendimientos de toda la región en cada etapa de
-            su crecimiento.
+            MH Equipamientos es una división de Mundo Hogar, una empresa familiar nacida en Carhué
+            que desde hace más de tres décadas acompaña a las familias y los comercios de la
+            región. Hoy llevamos esa misma experiencia al equipamiento comercial y gastronómico,
+            para que equipar un negocio no sea un dolor de cabeza.
           </p>
-          <p>
-            Trabajamos con las mejores marcas del mercado (Kretz, Turboblender, Solreal, Santini,
-            Bestcold, Inelro, Briket y más) y ofrecemos asesoramiento personalizado para que cada
-            cliente encuentre el equipo justo para su negocio, no el más caro ni el más barato: el
-            que mejor le sirve.
-          </p>
-          <p>
-            Financiamos cada compra con múltiples formas de pago, hacemos envíos a toda la zona y
-            brindamos soporte directo por WhatsApp antes, durante y después de cada venta.
+        </div>
+      </div>
+
+      <div className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
+        <h2 className="text-lg font-bold text-gray-900 sm:text-xl">Nuestra Historia</h2>
+        <p className="mt-2 text-sm leading-relaxed text-gray-600">
+          Un recorrido de crecimiento constante, paso a paso, siempre cerca de nuestros clientes.
+        </p>
+
+        <ol className="mt-8 space-y-8 border-l-2 border-brand/20 pl-6">
+          {TIMELINE.map((item) => (
+            <li key={item.year} className="relative">
+              <span className="absolute -left-[31px] top-0 flex h-5 w-5 items-center justify-center rounded-full bg-brand ring-4 ring-white" />
+              <span className="text-sm font-bold text-brand">{item.year}</span>
+              <h3 className="mt-1 text-base font-semibold text-gray-900">{item.title}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-gray-600">{item.text}</p>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-8 rounded-xl bg-brand/5 p-5">
+          <h3 className="text-base font-bold text-brand-dark">Hoy seguimos creciendo</h3>
+          <p className="mt-2 text-sm leading-relaxed text-gray-600">
+            Cada etapa de nuestra historia nos trajo hasta acá: una empresa familiar que sigue
+            creciendo de la mano de la comunidad que la eligió desde el primer día. Con MH
+            Equipamientos abrimos un nuevo capítulo, enfocado en acompañar a los comercios y
+            emprendimientos gastronómicos de toda la región con el mismo compromiso de siempre.
           </p>
         </div>
       </div>
