@@ -5,7 +5,9 @@ import { Providers } from "./providers";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { BackToTop } from "@/components/BackToTop";
 import { getCategories } from "@/lib/data";
+import { SITE_URL } from "@/lib/business";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +20,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "mhequipamientos | Equipamiento comercial",
-  description: "Sabemos lo que tu negocio necesita",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "MH Equipamientos | Equipamiento comercial",
+    template: "%s | MH Equipamientos",
+  },
+  description:
+    "Equipamiento comercial y gastronómico en Carhué, provincia de Buenos Aires. Acompañamos el crecimiento de tu negocio.",
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    siteName: "MH Equipamientos",
+  },
 };
 
 export const revalidate = 60;
@@ -38,6 +50,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <main className="flex-1">{children}</main>
           <Footer />
           <WhatsAppButton />
+          <BackToTop />
         </Providers>
       </body>
     </html>

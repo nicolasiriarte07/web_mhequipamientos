@@ -6,8 +6,11 @@ import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 import { Highlights } from "@/components/Highlights";
 import { BrandsStrip } from "@/components/BrandsStrip";
 import { BusinessTypes } from "@/components/BusinessTypes";
+import { PaymentMethods } from "@/components/PaymentMethods";
+import { Testimonials } from "@/components/Testimonials";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
 import { ProductGrid } from "@/components/ProductGrid";
+import { RecentlyViewed } from "@/components/RecentlyViewed";
 
 export const revalidate = 60;
 
@@ -85,6 +88,10 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <RecentlyViewed />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         <ProductGrid title="Ofertas del mes" subtitle="Productos con entrega inmediata" products={offers} />
       </section>
 
@@ -101,7 +108,15 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <PaymentMethods />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
         <ShippingCoverage />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+        <Testimonials />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">

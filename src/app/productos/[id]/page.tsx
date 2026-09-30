@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,7 +6,10 @@ import { getProductById, getRelatedProducts } from "@/lib/data";
 import { ProductPurchasePanel } from "@/components/ProductPurchasePanel";
 import { ProductTrustBadges } from "@/components/ProductTrustBadges";
 import { ProductGrid } from "@/components/ProductGrid";
+import { ShareButton } from "@/components/ShareButton";
+import { RecordRecentlyViewed } from "@/components/RecordRecentlyViewed";
 import { parseSpecLines } from "@/lib/specs";
+import { SITE_URL } from "@/lib/business";
 
 export const revalidate = 30;
 
@@ -15,11 +19,31 @@ const priceFormatter = new Intl.NumberFormat("es-AR", {
   maximumFractionDigits: 0,
 });
 
-export default async function ProductoPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+type Params = { params: Promise<{ id: string }> };
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProductById(Number(id));
+  if (!product) return {};
+
+  const description = product.descripcion
+    ? product.descripcion.replace(/\s+/g, " ").slice(0, 160)
+    : `${product.titulo}${product.marca ? ` de ${product.marca}` : ""} en MH Equipamientos.`;
+
+  return {
+    title: product.titulo,
+    description,
+    alternates: { canonical: `/productos/${product.id}` },
+    openGraph: {
+      title: product.titulo,
+      description,
+      url: `${SITE_URL}/productos/${product.id}`,
+      images: product.imagen_url ? [{ url: product.imagen_url }] : undefined,
+    },
+  };
+}
+
+export default async function ProductoPage({ params }: Params) {
   const { id } = await params;
   const productId = Number(id);
 
@@ -33,9 +57,35 @@ export default async function ProductoPage({
     : [];
 
   const specLines = product.descripcion ? parseSpecLines(product.descripcion) : [];
+  const productUrl = `${SITE_URL}/productos/${product.id}`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.titulo,
+    description: product.descripcion ?? undefined,
+    image: product.imagen_url ?? undefined,
+    sku: String(product.id),
+    brand: product.marca ? { "@type": "Brand", name: product.marca } : undefined,
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "ARS",
+      price: product.precio ?? undefined,
+      availability: product.disponible
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <RecordRecentlyViewed product={product} />
+
       <nav className="mb-6 text-sm text-gray-500">
         <Link href="/productos" className="hover:text-brand">
           Catálogo
@@ -78,14 +128,19 @@ export default async function ProductoPage({
         </div>
 
         <div className="flex flex-col gap-4">
-          {product.categorias && (
-            <Link
-              href={`/productos?categoria=${product.categorias.id}`}
-              className="text-xs font-semibold uppercase tracking-wide text-brand hover:underline"
-            >
-              {product.categorias.nombre}
-            </Link>
-          )}
+          <div className="flex items-start justify-between gap-4">
+            {product.categorias ? (
+              <Link
+                href={`/productos?categoria=${product.categorias.id}`}
+                className="text-xs font-semibold uppercase tracking-wide text-brand hover:underline"
+              >
+                {product.categorias.nombre}
+              </Link>
+            ) : (
+              <span />
+            )}
+            <ShareButton title={product.titulo} text={product.titulo} url={productUrl} />
+          </div>
 
           <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">{product.titulo}</h1>
 

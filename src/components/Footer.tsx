@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { BUSINESS_ADDRESS, BUSINESS_HOURS } from "@/lib/business";
 
 const INSTAGRAM_URL = "https://www.instagram.com/equipamientos.mh/";
 const MUNDO_HOGAR_URL = "https://www.mundohogar.com.ar";
@@ -9,7 +11,7 @@ export function Footer() {
   return (
     <footer className="bg-brand-dark text-white">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <div className="flex flex-col items-center gap-8 text-center sm:flex-row sm:items-start sm:justify-between sm:text-left">
+        <div className="grid gap-8 text-center sm:grid-cols-3 sm:text-left">
           <div className="flex flex-col items-center gap-3 sm:items-start">
             <Image
               src="/logo.png"
@@ -21,6 +23,22 @@ export function Footer() {
             <p className="max-w-xs text-sm text-white/70">
               Equipamiento comercial para tu negocio. Carhué, provincia de Buenos Aires.
             </p>
+            <Link
+              href="/nosotros"
+              className="text-sm font-medium text-white/80 underline underline-offset-2 hover:text-white"
+            >
+              Conocé más sobre nosotros
+            </Link>
+          </div>
+
+          <div className="flex flex-col items-center gap-2 sm:items-start">
+            <span className="text-sm font-semibold text-white/90">Contacto</span>
+            <p className="text-sm text-white/70">{BUSINESS_ADDRESS}</p>
+            {BUSINESS_HOURS.map((h) => (
+              <p key={h.dias} className="text-sm text-white/70">
+                {h.dias}: {h.horario}
+              </p>
+            ))}
           </div>
 
           <div className="flex flex-col items-center gap-3 sm:items-start">
