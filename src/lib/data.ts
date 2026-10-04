@@ -246,6 +246,26 @@ export const getBrands = cache(async (): Promise<string[]> => {
   return [...brands].sort((a, b) => a.localeCompare(b));
 });
 
+export async function getProductsByCategorySlug(slug: string, limit = 12): Promise<Product[]> {
+  const categories = await getCategories();
+  const category = categories.find((c) => normalizeCategoryName(c.nombre).includes(slug));
+  if (!category) return [];
+
+  const { data, error } = await supabase
+    .from("productos")
+    .select("*, categorias(*)")
+    .eq("categoria_id", category.id)
+    .eq("disponible", true)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error(`Error cargando productos de ${slug}:`, error.message);
+    return [];
+  }
+  return data ?? [];
+}
+
 export async function getBriketMaster(): Promise<Product[]> {
   const { data, error } = await supabase
     .from("productos")

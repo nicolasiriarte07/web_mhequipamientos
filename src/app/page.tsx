@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { getCategories, getMonthlyOffers, getBriketMaster, getBrands } from "@/lib/data";
+import {
+  getCategories,
+  getMonthlyOffers,
+  getBriketMaster,
+  getBrands,
+  getProductsByCategorySlug,
+} from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
 import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
@@ -10,17 +16,21 @@ import { PaymentMethods } from "@/components/PaymentMethods";
 import { Testimonials } from "@/components/Testimonials";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
 import { ProductGrid } from "@/components/ProductGrid";
+import { ProductCarousel } from "@/components/ProductCarousel";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [categories, offers, briketMaster, brands] = await Promise.all([
-    getCategories(),
-    getMonthlyOffers(),
-    getBriketMaster(),
-    getBrands(),
-  ]);
+  const [categories, offers, briketMaster, brands, gastronomiaProducts, alimentosProducts] =
+    await Promise.all([
+      getCategories(),
+      getMonthlyOffers(),
+      getBriketMaster(),
+      getBrands(),
+      getProductsByCategorySlug("gastronomia", 12),
+      getProductsByCategorySlug("alimentos", 12),
+    ]);
 
   const heroContent = (
     <div
@@ -116,6 +126,22 @@ export default async function HomePage() {
           title="Exhibidoras Briket Master"
           subtitle="La vidriera perfecta para tu local"
           products={briketMaster}
+        />
+      </section>
+
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
+        <ProductCarousel
+          title="Productos de Gastronomía"
+          subtitle="Equipamiento profesional para tu cocina"
+          products={gastronomiaProducts}
+        />
+      </section>
+
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
+        <ProductCarousel
+          title="Productos de Alimentos"
+          subtitle="Todo para procesar y conservar"
+          products={alimentosProducts}
         />
       </section>
 
