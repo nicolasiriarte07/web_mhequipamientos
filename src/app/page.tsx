@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   getCategories,
   getMonthlyOffers,
@@ -18,6 +19,15 @@ import { ShippingCoverage } from "@/components/ShippingCoverage";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
+import { whatsappUrl } from "@/lib/contact";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+
+const TRUST_STRIP_ITEMS = [
+  "Más de 30 años en el rubro",
+  "Envíos a toda la región",
+  "Financiación hasta el 100%",
+  "Atención directa por WhatsApp",
+];
 
 export const revalidate = 60;
 
@@ -57,6 +67,26 @@ export default async function HomePage() {
         Acompañamos el crecimiento de tu negocio
       </p>
 
+      <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <Link
+          href="/productos"
+          className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-brand-dark shadow-sm hover:bg-white/90"
+        >
+          Ver catálogo completo
+        </Link>
+        <a
+          href={whatsappUrl("Hola! Quiero asesorarme sobre equipamiento para mi negocio.")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`flex items-center gap-2 rounded-lg border px-6 py-3 text-sm font-semibold hover:bg-white/10 ${
+            HAS_HERO_IMAGE ? "border-white/60 text-white" : "border-brand text-brand"
+          }`}
+        >
+          <WhatsAppIcon className="h-4 w-4" />
+          Hablar con un asesor
+        </a>
+      </div>
+
       <div className="mt-8 hidden sm:block">
         <SearchBar />
       </div>
@@ -82,6 +112,28 @@ export default async function HomePage() {
       ) : (
         <section>{heroContent}</section>
       )}
+
+      <section className="mx-auto max-w-[1600px] px-4 pt-6 sm:px-6 lg:px-10">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-2xl bg-white px-6 py-4 shadow-sm">
+          {TRUST_STRIP_ITEMS.map((item) => (
+            <span key={item} className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4 shrink-0 text-brand"
+                aria-hidden
+              >
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+              {item}
+            </span>
+          ))}
+        </div>
+      </section>
 
       <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <div className="mb-8 text-center">

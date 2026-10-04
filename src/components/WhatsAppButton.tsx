@@ -1,9 +1,16 @@
+"use client";
+
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useStickyBar } from "@/context/StickyBarContext";
 
 export function WhatsAppButton() {
+  const { active } = useStickyBar();
+
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div
+      className={`fixed right-5 z-50 transition-[bottom] ${active ? "bottom-20 sm:bottom-5" : "bottom-5"}`}
+    >
       <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366] opacity-75" />
       <a
         href={whatsappUrl("Hola! Quiero hacer una consulta sobre sus productos.")}

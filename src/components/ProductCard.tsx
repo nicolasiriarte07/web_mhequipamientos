@@ -45,7 +45,7 @@ export function ProductCard({ product }: { product: Product }) {
         )}
 
         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-3">
-          <span className="text-base font-bold text-gray-900 sm:text-lg">
+          <span className="text-lg font-extrabold text-brand-dark sm:text-xl">
             {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
           </span>
           <AddToCartButton

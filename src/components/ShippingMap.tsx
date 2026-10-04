@@ -9,7 +9,7 @@ const CARHUE_LON = -62.7667;
 const CARHUE: [number, number] = [CARHUE_LAT, CARHUE_LON];
 
 const FREE_RADIUS_KM = 120;
-const NEGOTIATED_RADIUS_KM = 250;
+const NEGOTIATED_RADIUS_KM = 450;
 // Margen extra alrededor del radio de envío a convenir para que el círculo
 // no quede pegado al borde del mapa.
 const VIEW_MARGIN = 1.15;

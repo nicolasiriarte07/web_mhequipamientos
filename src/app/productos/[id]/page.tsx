@@ -8,6 +8,7 @@ import { ProductTrustBadges } from "@/components/ProductTrustBadges";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ShareButton } from "@/components/ShareButton";
 import { RecordRecentlyViewed } from "@/components/RecordRecentlyViewed";
+import { StickyPurchaseBar } from "@/components/StickyPurchaseBar";
 import { parseSpecLines } from "@/lib/specs";
 import { SITE_URL } from "@/lib/business";
 
@@ -79,7 +80,7 @@ export default async function ProductoPage({ params }: Params) {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-5xl px-4 py-10 pb-28 sm:px-6 sm:pb-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -127,7 +128,7 @@ export default async function ProductoPage({ params }: Params) {
           )}
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div id="purchase-panel" className="flex flex-col gap-4">
           <div className="flex items-start justify-between gap-4">
             {product.categorias ? (
               <Link
@@ -150,7 +151,7 @@ export default async function ProductoPage({ params }: Params) {
             </span>
           )}
 
-          <span className="text-3xl font-bold text-gray-900">
+          <span className="text-4xl font-extrabold text-brand-dark">
             {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
           </span>
 
@@ -190,6 +191,8 @@ export default async function ProductoPage({ params }: Params) {
           <ProductGrid title="También te puede interesar" products={related} />
         </div>
       )}
+
+      <StickyPurchaseBar product={product} anchorId="purchase-panel" />
     </div>
   );
 }
