@@ -171,6 +171,65 @@ export async function getRelatedProducts(
   return data ?? [];
 }
 
+function shuffleProducts(products: Product[]): Product[] {
+  const copy = [...products];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+async function fetchComplementaryPool(
+  categoryIds: number[],
+  excludeIds: number[],
+  poolSize: number
+): Promise<Product[]> {
+  let query = supabase.from("productos").select("*, categorias(*)").eq("disponible", true);
+
+  if (categoryIds.length > 0) {
+    query = query.in("categoria_id", categoryIds);
+  }
+  if (excludeIds.length > 0) {
+    query = query.not("id", "in", `(${excludeIds.join(",")})`);
+  }
+
+  const { data, error } = await query.limit(poolSize);
+
+  if (error) {
+    console.error("Error cargando productos complementarios:", error.message);
+    return [];
+  }
+  return data ?? [];
+}
+
+// Completa un bloque con productos complementarios (misma categoría que los
+// productos de origen) hasta llegar a `limit`, sin repetir `excludeIds`. Si
+// no alcanzan los productos de esas categorías, rellena con cualquier otro
+// producto disponible.
+export async function getComplementaryProducts(
+  categoryIds: number[],
+  excludeIds: number[],
+  limit: number
+): Promise<Product[]> {
+  if (limit <= 0) return [];
+
+  const sameCategory = shuffleProducts(
+    await fetchComplementaryPool(categoryIds, excludeIds, limit * 4)
+  );
+
+  if (sameCategory.length >= limit) {
+    return sameCategory.slice(0, limit);
+  }
+
+  const alreadyPicked = [...excludeIds, ...sameCategory.map((p) => p.id)];
+  const rest = shuffleProducts(
+    await fetchComplementaryPool([], alreadyPicked, (limit - sameCategory.length) * 4)
+  );
+
+  return [...sameCategory, ...rest].slice(0, limit);
+}
+
 export const getBrands = cache(async (): Promise<string[]> => {
   const { data, error } = await supabase
     .from("productos")
