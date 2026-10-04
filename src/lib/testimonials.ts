@@ -30,7 +30,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Florencia",
     city: "Coronel Suárez",
-    rating: 4,
+    rating: 5,
     quote:
       "Buena variedad de marcas y el envío llegó antes de lo esperado. Muy recomendables para equipar un local gastronómico.",
   },
@@ -51,7 +51,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Ramiro",
     city: "Santa Rosa",
-    rating: 4,
+    rating: 5,
     quote:
       "Consulté por varias opciones antes de decidirme y siempre me asesoraron con honestidad, incluso recomendándome el equipo más económico.",
   },
