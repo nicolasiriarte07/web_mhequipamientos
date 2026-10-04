@@ -48,9 +48,9 @@ const items = [
 export function BusinessTypes() {
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
-      <h2 className="text-center text-xl font-bold text-gray-900">A quién ayudamos</h2>
+      <h2 className="text-center text-xl font-bold text-gray-900">Equipamos tu rubro, sea cual sea</h2>
       <p className="mt-1 text-center text-sm text-gray-500">
-        Equipamos todo tipo de comercios y emprendimientos
+        Acompañamos a todo tipo de comercios y emprendimientos
       </p>
 
       <div className="mt-6 grid grid-cols-3 gap-6 sm:grid-cols-3 md:grid-cols-5">

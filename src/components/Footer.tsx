@@ -10,7 +10,7 @@ const MUNDO_HOGAR_URL = "https://www.mundohogar.com.ar";
 export function Footer() {
   return (
     <footer className="bg-brand-dark text-white">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10">
         <div className="grid gap-8 text-center sm:grid-cols-3 sm:text-left">
           <div className="flex flex-col items-center gap-3 sm:items-start">
             <Image

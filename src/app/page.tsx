@@ -56,7 +56,7 @@ export default async function HomePage() {
   return (
     <div>
       {HAS_HERO_IMAGE ? (
-        <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
+        <section className="mx-auto max-w-[1600px] px-4 pt-8 sm:px-6 lg:px-10">
           <div className="relative overflow-hidden rounded-3xl">
             <Image
               src={HERO_IMAGE}
@@ -73,13 +73,21 @@ export default async function HomePage() {
         <section>{heroContent}</section>
       )}
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+            Encontrá todo para tu negocio
+          </h2>
+          <p className="mt-2 text-sm text-gray-500 sm:text-base">
+            Explorá nuestras categorías y descubrí el equipamiento ideal para vos.
+          </p>
+        </div>
         {categories.length === 0 ? (
           <p className="text-center text-gray-500">
             Todavía no hay categorías cargadas en Supabase.
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {categories.map((category) => (
               <CategoryCard key={category.id} category={category} />
             ))}
@@ -87,41 +95,51 @@ export default async function HomePage() {
         )}
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <RecentlyViewed />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
-        <ProductGrid title="Ofertas del mes" subtitle="Productos con entrega inmediata" products={offers} />
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
+        <ProductGrid
+          title="Ofertas que no te podés perder"
+          subtitle="Productos con entrega inmediata, directo a tu negocio"
+          products={offers}
+        />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <Highlights />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
+        <ProductGrid
+          title="Exhibidoras Briket Master"
+          subtitle="La vidriera perfecta para tu local"
+          products={briketMaster}
+        />
+      </section>
+
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <BrandsStrip brands={brands} />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <BusinessTypes />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <PaymentMethods />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <ShippingCoverage />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <Testimonials />
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6">
-        <ProductGrid title="Exhibidoras Briket" subtitle="Línea Master" products={briketMaster} />
-      </section>
+      <div className="pb-16" />
     </div>
   );
 }

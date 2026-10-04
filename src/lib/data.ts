@@ -2,6 +2,33 @@ import { cache } from "react";
 import { supabase } from "@/lib/supabase/client";
 import type { Category, Product } from "@/lib/types";
 
+const CATEGORY_ORDER = [
+  "alimentos",
+  "gastronomia",
+  "refrigeracion",
+  "exhibicion",
+  "hoteleria",
+  "oficina",
+];
+
+function normalizeCategoryName(text: string) {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+}
+
+function sortByCategoryOrder(categories: Category[]): Category[] {
+  return [...categories].sort((a, b) => {
+    const ai = CATEGORY_ORDER.findIndex((slug) => normalizeCategoryName(a.nombre).includes(slug));
+    const bi = CATEGORY_ORDER.findIndex((slug) => normalizeCategoryName(b.nombre).includes(slug));
+    if (ai === -1 && bi === -1) return a.nombre.localeCompare(b.nombre);
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+}
+
 export const getCategories = cache(async (): Promise<Category[]> => {
   const { data, error } = await supabase
     .from("categorias")
@@ -12,7 +39,7 @@ export const getCategories = cache(async (): Promise<Category[]> => {
     console.error("Error cargando categorías:", error.message);
     return [];
   }
-  return data ?? [];
+  return sortByCategoryOrder(data ?? []);
 });
 
 export type ProductFilters = {

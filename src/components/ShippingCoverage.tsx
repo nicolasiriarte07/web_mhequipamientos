@@ -15,7 +15,7 @@ export function ShippingCoverage() {
   return (
     <div className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm">
       <div className="p-6 pb-0">
-        <h2 className="text-xl font-bold text-gray-900">Zona de envíos</h2>
+        <h2 className="text-xl font-bold text-gray-900">¿Hasta dónde llegamos?</h2>
         <p className="mt-1 text-sm text-gray-500">
           Centrados en Carhué, provincia de Buenos Aires.
         </p>

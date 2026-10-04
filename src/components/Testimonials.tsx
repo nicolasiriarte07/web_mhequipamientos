@@ -23,9 +23,11 @@ function Stars({ rating }: { rating: number }) {
 export function Testimonials() {
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
-      <h2 className="text-center text-xl font-bold text-gray-900">Lo que dicen nuestros clientes</h2>
+      <h2 className="text-center text-xl font-bold text-gray-900">
+        La confianza de quienes ya eligieron MH
+      </h2>
       <p className="mt-1 text-center text-sm text-gray-500">
-        Comercios de toda la región nos eligen
+        Lo que opinan los comercios de toda la región
       </p>
 
       <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

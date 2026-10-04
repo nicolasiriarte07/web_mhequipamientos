@@ -3,7 +3,9 @@ export function BrandsStrip({ brands }: { brands: string[] }) {
 
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
-      <h2 className="text-center text-xl font-bold text-gray-900">Marcas que trabajamos</h2>
+      <h2 className="text-center text-xl font-bold text-gray-900">
+        Trabajamos con las mejores marcas
+      </h2>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         {brands.map((brand) => (
           <span

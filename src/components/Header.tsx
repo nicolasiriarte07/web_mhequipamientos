@@ -14,7 +14,7 @@ export function Header({ categories }: { categories: Category[] }) {
 
   return (
     <header className="relative bg-brand text-white">
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-4 sm:px-6">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-4 sm:px-6 lg:px-10">
         <div className="relative justify-self-start">
           <button
             onClick={() => setMenuOpen((v) => !v)}

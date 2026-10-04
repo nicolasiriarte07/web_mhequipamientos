@@ -27,26 +27,29 @@ const items = [
 
 export function Highlights() {
   return (
-    <div className="grid grid-cols-2 gap-6 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:grid-cols-4">
-      {items.map((item) => (
-        <div key={item.title} className="flex flex-col items-center gap-3 text-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand/10 text-brand">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.75}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-6 w-6"
-              aria-hidden
-            >
-              {item.icon}
-            </svg>
-          </span>
-          <p className="text-sm font-semibold text-gray-800">{item.title}</p>
-        </div>
-      ))}
+    <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
+      <h2 className="mb-6 text-center text-xl font-bold text-gray-900">Por qué elegirnos</h2>
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+        {items.map((item) => (
+          <div key={item.title} className="flex flex-col items-center gap-3 text-center">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand/10 text-brand">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.75}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-6 w-6"
+                aria-hidden
+              >
+                {item.icon}
+              </svg>
+            </span>
+            <p className="text-sm font-semibold text-gray-800">{item.title}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ export function CategoryCard({ category }: { category: Category }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm">
-      <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-brand to-brand-dark">
+      <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-brand to-brand-dark sm:h-48 lg:h-56">
         {image ? (
           <>
             <Image src={image} alt={category.nombre} fill className="object-cover" />
