@@ -6,6 +6,7 @@ import {
   getBriketMaster,
   getBrands,
   getProductsByCategorySlug,
+  getProductsByCategorySlugs,
 } from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
@@ -13,6 +14,7 @@ import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 import { Highlights } from "@/components/Highlights";
 import { BrandsStrip } from "@/components/BrandsStrip";
 import { BusinessTypes } from "@/components/BusinessTypes";
+import { BusinessProductTabs } from "@/components/BusinessProductTabs";
 import { PaymentMethods } from "@/components/PaymentMethods";
 import { Testimonials } from "@/components/Testimonials";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
@@ -21,6 +23,8 @@ import { ProductCarousel } from "@/components/ProductCarousel";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { BUSINESS_PRODUCT_TABS } from "@/lib/businessProductTabs";
+import type { Product } from "@/lib/types";
 
 const TRUST_STRIP_ITEMS = [
   "Más de 30 años en el rubro",
@@ -32,15 +36,29 @@ const TRUST_STRIP_ITEMS = [
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [categories, offers, briketMaster, brands, gastronomiaProducts, alimentosProducts] =
-    await Promise.all([
-      getCategories(),
-      getMonthlyOffers(),
-      getBriketMaster(),
-      getBrands(),
-      getProductsByCategorySlug("gastronomia", 12),
-      getProductsByCategorySlug("alimentos", 12),
-    ]);
+  const [
+    categories,
+    offers,
+    briketMaster,
+    brands,
+    gastronomiaProducts,
+    alimentosProducts,
+    businessTabProducts,
+  ] = await Promise.all([
+    getCategories(),
+    getMonthlyOffers(),
+    getBriketMaster(),
+    getBrands(),
+    getProductsByCategorySlug("gastronomia", 12),
+    getProductsByCategorySlug("alimentos", 12),
+    Promise.all(
+      BUSINESS_PRODUCT_TABS.map((tab) => getProductsByCategorySlugs([...tab.categorySlugs], 8))
+    ),
+  ]);
+
+  const productsByBusinessTab: Record<string, Product[]> = Object.fromEntries(
+    BUSINESS_PRODUCT_TABS.map((tab, i) => [tab.slug, businessTabProducts[i]])
+  );
 
   const heroContent = (
     <div
@@ -167,6 +185,10 @@ export default async function HomePage() {
           subtitle="Productos con entrega inmediata, directo a tu negocio"
           products={offers}
         />
+      </section>
+
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
+        <BusinessProductTabs productsByTab={productsByBusinessTab} />
       </section>
 
       <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
