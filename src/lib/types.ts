@@ -5,6 +5,14 @@ export type Category = {
   created_at: string;
 };
 
+export type ProductImage = {
+  id: number;
+  producto_id: number;
+  url: string;
+  orden: number;
+  created_at: string;
+};
+
 export type Product = {
   id: number;
   categoria_id: number | null;
@@ -18,4 +26,5 @@ export type Product = {
   entrega_inmediata: boolean;
   created_at: string;
   categorias?: Category | null;
+  producto_imagenes?: ProductImage[];
 };

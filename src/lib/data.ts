@@ -140,7 +140,7 @@ export async function getMonthlyOffers(count = 5): Promise<Product[]> {
 export async function getProductById(id: number): Promise<Product | null> {
   const { data, error } = await supabase
     .from("productos")
-    .select("*, categorias(*)")
+    .select("*, categorias(*), producto_imagenes(*)")
     .eq("id", id)
     .maybeSingle();
 

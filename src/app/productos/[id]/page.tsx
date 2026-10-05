@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { getProductById, getRelatedProducts } from "@/lib/data";
+import { ProductGallery } from "@/components/ProductGallery";
 import { ProductPurchasePanel } from "@/components/ProductPurchasePanel";
 import { ProductTrustBadges } from "@/components/ProductTrustBadges";
 import { ProductGrid } from "@/components/ProductGrid";
@@ -60,12 +60,20 @@ export default async function ProductoPage({ params }: Params) {
   const specLines = product.descripcion ? parseSpecLines(product.descripcion) : [];
   const productUrl = `${SITE_URL}/productos/${product.id}`;
 
+  const images = [
+    ...(product.imagen_url ? [product.imagen_url] : []),
+    ...(product.producto_imagenes ?? [])
+      .slice()
+      .sort((a, b) => a.orden - b.orden)
+      .map((img) => img.url),
+  ].filter((url, i, arr) => arr.indexOf(url) === i);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.titulo,
     description: product.descripcion ?? undefined,
-    image: product.imagen_url ?? undefined,
+    image: images.length > 0 ? images : undefined,
     sku: String(product.id),
     brand: product.marca ? { "@type": "Brand", name: product.marca } : undefined,
     offers: {
@@ -107,26 +115,11 @@ export default async function ProductoPage({ params }: Params) {
       </nav>
 
       <div className="grid gap-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:grid-cols-2 sm:p-8">
-        <div className="group relative h-72 w-full overflow-hidden rounded-xl bg-gray-100 sm:h-96">
-          {product.imagen_url ? (
-            <Image
-              src={product.imagen_url}
-              alt={product.titulo}
-              fill
-              className="object-contain p-6 transition-transform duration-300 group-hover:scale-110"
-              priority
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center text-sm text-gray-400">
-              Sin imagen
-            </div>
-          )}
-          {product.entrega_inmediata && (
-            <span className="absolute left-4 top-4 rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white">
-              Entrega inmediata
-            </span>
-          )}
-        </div>
+        <ProductGallery
+          images={images}
+          alt={product.titulo}
+          badge={product.entrega_inmediata ? "Entrega inmediata" : undefined}
+        />
 
         <div id="purchase-panel" className="flex flex-col gap-4">
           <div className="flex items-start justify-between gap-4">

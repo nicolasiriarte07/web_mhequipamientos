@@ -66,3 +66,21 @@ create policy "Public insert leads_web" on leads_web
   for insert
   to anon
   with check (true);
+
+-- Fotos adicionales por producto (la ficha ya usa `productos.imagen_url`
+-- como primera foto; esta tabla suma el resto para la galería). Lectura
+-- pública (como categorias/productos), sin permisos de escritura para la
+-- anon key: las fotos se cargan desde el Table Editor de Supabase.
+create table if not exists producto_imagenes (
+  id bigint generated always as identity primary key,
+  producto_id bigint not null references productos(id) on delete cascade,
+  url text not null,
+  orden integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table producto_imagenes enable row level security;
+
+drop policy if exists "Public read producto_imagenes" on producto_imagenes;
+create policy "Public read producto_imagenes" on producto_imagenes
+  for select using (true);
