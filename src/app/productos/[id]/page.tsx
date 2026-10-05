@@ -163,22 +163,28 @@ export default async function ProductoPage({ params }: Params) {
 
       {specLines.length > 0 && (
         <div className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="mb-4 text-lg font-bold text-gray-900">Especificaciones</h2>
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <h2 className="text-lg font-bold text-gray-900">Especificaciones</h2>
+          <p className="mt-1 text-sm text-gray-500">Lo que incluye este equipo</p>
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
             {specLines.map((line, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                  aria-hidden
-                >
-                  <path d="M20 6 9 17l-5-5" />
-                </svg>
+              <li
+                key={i}
+                className="flex items-start gap-3 rounded-xl bg-gray-50 p-3.5 text-sm leading-relaxed text-gray-700"
+              >
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-3 w-3"
+                    aria-hidden
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </span>
                 {line}
               </li>
             ))}

@@ -28,15 +28,11 @@ export function ShippingCoverage() {
       <div className="flex flex-col gap-3 p-6 pt-4 sm:flex-row sm:items-center sm:gap-8">
         <div className="flex items-center gap-2">
           <span className="h-3.5 w-3.5 rounded-full border border-brand-dark/40 bg-brand-dark/70" />
-          <span className="text-sm text-gray-700">
-            <strong className="font-semibold text-gray-900">120 km</strong> — Envío gratis
-          </span>
+          <span className="text-sm text-gray-700">Envío gratis</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="h-3.5 w-3.5 rounded-full border border-brand/40 bg-brand/20" />
-          <span className="text-sm text-gray-700">
-            <strong className="font-semibold text-gray-900">450 km</strong> — Envío a convenir
-          </span>
+          <span className="text-sm text-gray-700">Envío a convenir</span>
         </div>
       </div>
     </div>
