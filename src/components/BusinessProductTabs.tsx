@@ -26,12 +26,6 @@ const TAB_ICONS: Record<string, ReactNode> = {
   ),
 };
 
-const priceFormatter = new Intl.NumberFormat("es-AR", {
-  style: "currency",
-  currency: "ARS",
-  maximumFractionDigits: 0,
-});
-
 export function BusinessProductTabs({
   productsByTab,
 }: {
@@ -39,7 +33,6 @@ export function BusinessProductTabs({
 }) {
   const [active, setActive] = useState<string>(BUSINESS_PRODUCT_TABS[0].slug);
   const products = productsByTab[active] ?? [];
-  const comboTotal = products.reduce((sum, p) => sum + (p.precio ?? 0), 0);
 
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
@@ -88,20 +81,11 @@ export function BusinessProductTabs({
             Todavía no hay productos cargados para este rubro.
           </p>
         ) : (
-          <>
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-
-            <div className="mt-6 flex items-center justify-between rounded-xl bg-brand/5 px-5 py-4">
-              <span className="text-sm font-medium text-gray-700">Total del combo</span>
-              <span className="text-xl font-bold text-brand">
-                {priceFormatter.format(comboTotal)}
-              </span>
-            </div>
-          </>
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         )}
       </div>
     </div>
