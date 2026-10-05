@@ -39,3 +39,30 @@ alter table ordenes_compra enable row level security;
 alter table precios_compra enable row level security;
 alter table proveedores enable row level security;
 alter table sales enable row level security;
+
+-- Tabla para los leads del formulario "Pedí tu cotización" en /contacto.
+-- Es una tabla nueva y separada de `cotizaciones` (que es de uso interno)
+-- para no arriesgarnos a romper nada que ya uses ahí.
+--
+-- La política solo permite INSERT desde el sitio (anon): el formulario
+-- puede crear filas nuevas, pero nadie puede leer, editar ni borrar leads
+-- ajenos usando la anon key pública. Para ver los leads entrá al Table
+-- Editor de Supabase (ahí usás el rol postgres/service_role, no sujeto a
+-- esta restricción).
+create table if not exists leads_web (
+  id bigint generated always as identity primary key,
+  nombre text not null,
+  telefono text not null,
+  email text,
+  nombre_comercio text,
+  mensaje text,
+  created_at timestamptz not null default now()
+);
+
+alter table leads_web enable row level security;
+
+drop policy if exists "Public insert leads_web" on leads_web;
+create policy "Public insert leads_web" on leads_web
+  for insert
+  to anon
+  with check (true);

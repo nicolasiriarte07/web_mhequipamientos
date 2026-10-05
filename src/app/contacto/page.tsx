@@ -4,6 +4,7 @@ import { BUSINESS_ADDRESS, BUSINESS_HOURS } from "@/lib/business";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
+import { QuoteRequestForm } from "@/components/QuoteRequestForm";
 
 const INSTAGRAM_URL = "https://www.instagram.com/equipamientos.mh/";
 
@@ -32,6 +33,16 @@ export default function ContactoPage() {
           <WhatsAppIcon className="h-5 w-5" />
           Escribinos por WhatsApp
         </a>
+      </div>
+
+      <div className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
+        <h2 className="text-lg font-bold text-gray-900 sm:text-xl">Pedí tu cotización</h2>
+        <p className="mt-1 text-sm text-gray-500">
+          Dejanos tus datos y te contactamos a la brevedad, sin compromiso.
+        </p>
+        <div className="mt-6">
+          <QuoteRequestForm />
+        </div>
       </div>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-3">
