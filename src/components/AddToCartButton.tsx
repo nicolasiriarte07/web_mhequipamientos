@@ -2,6 +2,7 @@
 
 import type { Product } from "@/lib/types";
 import { useCart } from "@/context/CartContext";
+import { useToast } from "@/context/ToastContext";
 
 export function AddToCartButton({
   product,
@@ -11,6 +12,7 @@ export function AddToCartButton({
   className?: string;
 }) {
   const { addItem } = useCart();
+  const { showToast } = useToast();
 
   return (
     <button
@@ -18,6 +20,10 @@ export function AddToCartButton({
         e.preventDefault();
         e.stopPropagation();
         addItem(product);
+        showToast(`"${product.titulo}" se agregó al carrito`, {
+          label: "Ver carrito",
+          href: "/carrito",
+        });
       }}
       disabled={!product.disponible}
       className={
