@@ -17,6 +17,8 @@ export function ProductFilters({
   const currentBrand = searchParams.get("marca") ?? "";
   const currentSort = searchParams.get("orden") ?? "";
   const immediateOnly = searchParams.get("inmediata") === "1";
+  const hasActiveFilters =
+    currentCategory || currentBrand || currentSort || immediateOnly || searchParams.get("q");
 
   function updateParam(key: string, value: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -93,6 +95,28 @@ export function ProductFilters({
         />
         Solo entrega inmediata
       </label>
+
+      {hasActiveFilters && (
+        <button
+          type="button"
+          onClick={() => router.push("/productos")}
+          className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-brand"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+            aria-hidden
+          >
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+          Limpiar filtros
+        </button>
+      )}
     </div>
   );
 }

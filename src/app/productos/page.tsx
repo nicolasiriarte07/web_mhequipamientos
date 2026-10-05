@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getCategories, getProducts, getBrands } from "@/lib/data";
 import { SearchBar } from "@/components/SearchBar";
 import { ProductFilters } from "@/components/ProductFilters";
@@ -12,6 +13,20 @@ type SearchParams = {
   orden?: string;
   inmediata?: string;
 };
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const categoryId = params.categoria ? Number(params.categoria) : undefined;
+  if (!categoryId) return { title: "Catálogo" };
+
+  const categories = await getCategories();
+  const category = categories.find((c) => c.id === categoryId);
+  return { title: category ? category.nombre : "Catálogo" };
+}
 
 export default async function ProductosPage({
   searchParams,
@@ -35,8 +50,19 @@ export default async function ProductosPage({
     }),
   ]);
 
+  const activeCategory = categories.find((c) => c.id === categoryId);
+
   return (
     <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+          {activeCategory ? activeCategory.nombre : "Catálogo completo"}
+        </h1>
+        {activeCategory?.descripcion && (
+          <p className="mt-1 text-sm text-gray-500">{activeCategory.descripcion}</p>
+        )}
+      </div>
+
       <div className="mb-6">
         <SearchBar initialValue={params.q ?? ""} />
       </div>
