@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProductById, getRelatedProducts } from "@/lib/data";
 import { ProductGallery } from "@/components/ProductGallery";
+import { InstallmentOptions } from "@/components/InstallmentOptions";
 import { ProductPurchasePanel } from "@/components/ProductPurchasePanel";
 import { ProductTrustBadges } from "@/components/ProductTrustBadges";
 import { ProductGrid } from "@/components/ProductGrid";
@@ -147,6 +148,8 @@ export default async function ProductoPage({ params }: Params) {
           <span className="text-4xl font-extrabold text-brand-dark">
             {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
           </span>
+
+          {product.precio != null && <InstallmentOptions precio={product.precio} />}
 
           <ProductPurchasePanel product={product} />
 
