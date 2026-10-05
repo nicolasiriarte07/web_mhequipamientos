@@ -82,51 +82,6 @@ export function Header({ categories }: { categories: Category[] }) {
                     );
                   })}
                 </div>
-
-                <div className="border-t border-gray-100 px-4 pb-2 pt-3">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                    Más información
-                  </span>
-                </div>
-                <div className="flex flex-col pb-2">
-                  <Link
-                    href="/nosotros"
-                    className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-brand/5 hover:text-brand"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={1.75}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-5 w-5 shrink-0 text-brand"
-                      aria-hidden
-                    >
-                      <path d="M12 8v4l3 3" />
-                      <circle cx="12" cy="12" r="9" />
-                    </svg>
-                    <span className="font-medium">Nuestra Historia</span>
-                  </Link>
-                  <Link
-                    href="/contacto"
-                    className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-brand/5 hover:text-brand"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={1.75}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-5 w-5 shrink-0 text-brand"
-                      aria-hidden
-                    >
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />
-                    </svg>
-                    <span className="font-medium">Contacto</span>
-                  </Link>
-                </div>
               </div>
             )}
           </div>
@@ -135,7 +90,7 @@ export function Header({ categories }: { categories: Category[] }) {
             href="/nosotros"
             className="hidden rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10 sm:block"
           >
-            Nosotros
+            Nuestra Historia
           </Link>
           <Link
             href="/contacto"
@@ -190,6 +145,16 @@ export function Header({ categories }: { categories: Category[] }) {
             )}
           </Link>
         </div>
+      </div>
+
+      <div className="flex items-center justify-center gap-4 border-t border-white/10 px-4 py-2 text-sm font-medium sm:hidden">
+        <Link href="/nosotros" className="hover:underline">
+          Nuestra Historia
+        </Link>
+        <span className="text-white/40">·</span>
+        <Link href="/contacto" className="hover:underline">
+          Contacto
+        </Link>
       </div>
 
       <div className="px-4 pb-4 sm:hidden">
