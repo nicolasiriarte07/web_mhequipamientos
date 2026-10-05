@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono, Sora } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -6,6 +7,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BackToTop } from "@/components/BackToTop";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { GoogleAnalyticsPageview } from "@/components/GoogleAnalyticsPageview";
 import { getCategories } from "@/lib/data";
 import { SITE_URL } from "@/lib/business";
 
@@ -50,6 +53,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <GoogleAnalytics />
+        <Suspense fallback={null}>
+          <GoogleAnalyticsPageview />
+        </Suspense>
         <Providers>
           <Header categories={categories} />
           <main className="flex-1">{children}</main>

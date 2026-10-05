@@ -5,6 +5,7 @@ import type { Product } from "@/lib/types";
 import { useCart } from "@/context/CartContext";
 import { whatsappUrl, PHONE_TEL } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { event } from "@/lib/gtag";
 
 export function ProductPurchasePanel({ product }: { product: Product }) {
   const { addItem } = useCart();
@@ -55,6 +56,13 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
           href={whatsappUrl(`Hola! Quiero consultar por: ${product.titulo}`)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            event("contact", {
+              method: "whatsapp",
+              source: "product_page",
+              item_name: product.titulo,
+            })
+          }
           className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-[#25D366] px-5 py-3 text-sm font-semibold text-[#128C4A] hover:bg-[#25D366]/10"
         >
           <WhatsAppIcon className="h-4 w-4" />

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { event } from "@/lib/gtag";
 
 const priceFormatter = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -100,6 +101,15 @@ export default function CarritoPage() {
           href={whatsappUrl(orderMessage)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            event("contact", {
+              method: "whatsapp",
+              source: "cart",
+              value: total,
+              currency: "ARS",
+              items_count: items.length,
+            })
+          }
           className="flex items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1fb659]"
         >
           <WhatsAppIcon className="h-5 w-5" />

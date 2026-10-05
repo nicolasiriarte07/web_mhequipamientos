@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase/client";
+import { event } from "@/lib/gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -47,6 +48,7 @@ export function QuoteRequestForm() {
       return;
     }
 
+    event("generate_lead", { method: "web_form" });
     setStatus("success");
     form.reset();
   }
