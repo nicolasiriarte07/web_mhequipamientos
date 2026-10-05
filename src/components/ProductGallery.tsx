@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { ProductImageLightbox } from "@/components/ProductImageLightbox";
 
 export function ProductGallery({
   images,
@@ -13,11 +14,22 @@ export function ProductGallery({
   badge?: string;
 }) {
   const [active, setActive] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const mainImage = images[active];
+
+  function goTo(index: number) {
+    const count = images.length;
+    setActive(((index % count) + count) % count);
+  }
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="group relative h-72 w-full overflow-hidden rounded-xl bg-gray-100 sm:h-96">
+      <div
+        className={`group relative h-72 w-full overflow-hidden rounded-xl bg-gray-100 sm:h-96 ${
+          mainImage ? "cursor-zoom-in" : ""
+        }`}
+        onClick={() => mainImage && setLightboxOpen(true)}
+      >
         {mainImage ? (
           <Image
             src={mainImage}
@@ -34,6 +46,23 @@ export function ProductGallery({
         {badge && (
           <span className="absolute left-4 top-4 rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white">
             {badge}
+          </span>
+        )}
+        {mainImage && (
+          <span className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4"
+              aria-hidden
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="m21 21-4.3-4.3M11 8v6M8 11h6" />
+            </svg>
           </span>
         )}
       </div>
@@ -54,6 +83,16 @@ export function ProductGallery({
             </button>
           ))}
         </div>
+      )}
+
+      {lightboxOpen && mainImage && (
+        <ProductImageLightbox
+          images={images}
+          active={active}
+          alt={alt}
+          onClose={() => setLightboxOpen(false)}
+          onNavigate={goTo}
+        />
       )}
     </div>
   );
