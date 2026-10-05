@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { getCategories, getProducts, getBrands } from "@/lib/data";
+import { getCategories, getProducts, getBrands, PRODUCTS_PAGE_SIZE } from "@/lib/data";
 import { SearchBar } from "@/components/SearchBar";
 import { ProductFilters } from "@/components/ProductFilters";
 import { ProductCard } from "@/components/ProductCard";
+import { Pagination } from "@/components/Pagination";
 
 export const revalidate = 30;
 
@@ -12,6 +13,7 @@ type SearchParams = {
   marca?: string;
   orden?: string;
   inmediata?: string;
+  pagina?: string;
 };
 
 export async function generateMetadata({
@@ -37,8 +39,10 @@ export default async function ProductosPage({
   const sort =
     params.orden === "price-asc" || params.orden === "price-desc" ? params.orden : "none";
   const categoryId = params.categoria ? Number(params.categoria) : undefined;
+  const pageParam = params.pagina ? Number(params.pagina) : 1;
+  const currentPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
 
-  const [categories, brands, products] = await Promise.all([
+  const [categories, brands, { products, total }] = await Promise.all([
     getCategories(),
     getBrands(),
     getProducts({
@@ -47,10 +51,26 @@ export default async function ProductosPage({
       brand: params.marca || undefined,
       immediateOnly: params.inmediata === "1",
       sort,
+      page: currentPage,
     }),
   ]);
 
   const activeCategory = categories.find((c) => c.id === categoryId);
+  const totalPages = Math.max(1, Math.ceil(total / PRODUCTS_PAGE_SIZE));
+  const rangeStart = total === 0 ? 0 : (currentPage - 1) * PRODUCTS_PAGE_SIZE + 1;
+  const rangeEnd = Math.min(currentPage * PRODUCTS_PAGE_SIZE, total);
+
+  function buildHref(page: number) {
+    const sp = new URLSearchParams();
+    if (params.q) sp.set("q", params.q);
+    if (params.categoria) sp.set("categoria", params.categoria);
+    if (params.marca) sp.set("marca", params.marca);
+    if (params.orden) sp.set("orden", params.orden);
+    if (params.inmediata) sp.set("inmediata", params.inmediata);
+    if (page > 1) sp.set("pagina", String(page));
+    const qs = sp.toString();
+    return `/productos${qs ? `?${qs}` : ""}`;
+  }
 
   return (
     <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10">
@@ -72,8 +92,19 @@ export default async function ProductosPage({
       </div>
 
       <p className="mb-4 text-sm text-gray-500">
-        Mostrando <span className="font-semibold text-gray-800">{products.length}</span>{" "}
-        productos
+        {totalPages > 1 ? (
+          <>
+            Mostrando{" "}
+            <span className="font-semibold text-gray-800">
+              {rangeStart}–{rangeEnd}
+            </span>{" "}
+            de <span className="font-semibold text-gray-800">{total}</span> productos
+          </>
+        ) : (
+          <>
+            Mostrando <span className="font-semibold text-gray-800">{total}</span> productos
+          </>
+        )}
       </p>
 
       {products.length === 0 ? (
@@ -87,6 +118,8 @@ export default async function ProductosPage({
           ))}
         </div>
       )}
+
+      <Pagination currentPage={currentPage} totalPages={totalPages} buildHref={buildHref} />
     </div>
   );
 }

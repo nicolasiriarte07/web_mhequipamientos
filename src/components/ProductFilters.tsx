@@ -27,6 +27,9 @@ export function ProductFilters({
     } else {
       params.delete(key);
     }
+    // Volvemos a la página 1: con un filtro nuevo, quedarse en la página
+    // que estaba antes podría mostrar un rango que ya no tiene sentido.
+    params.delete("pagina");
     router.push(`/productos${params.toString() ? `?${params.toString()}` : ""}`);
   }
 

@@ -48,12 +48,21 @@ export type ProductFilters = {
   brand?: string;
   immediateOnly?: boolean;
   sort?: "price-asc" | "price-desc" | "none";
+  page?: number;
+  pageSize?: number;
 };
 
-export async function getProducts(filters: ProductFilters = {}): Promise<Product[]> {
+export const PRODUCTS_PAGE_SIZE = 24;
+
+export type ProductsPage = {
+  products: Product[];
+  total: number;
+};
+
+export async function getProducts(filters: ProductFilters = {}): Promise<ProductsPage> {
   let query = supabase
     .from("productos")
-    .select("*, categorias(*)")
+    .select("*, categorias(*)", { count: "exact" })
     .eq("disponible", true);
 
   if (filters.search) {
@@ -83,13 +92,19 @@ export async function getProducts(filters: ProductFilters = {}): Promise<Product
     query = query.order("created_at", { ascending: false });
   }
 
-  const { data, error } = await query;
+  const page = filters.page && filters.page > 0 ? filters.page : 1;
+  const pageSize = filters.pageSize ?? PRODUCTS_PAGE_SIZE;
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+  query = query.range(from, to);
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.error("Error cargando productos:", error.message);
-    return [];
+    return { products: [], total: 0 };
   }
-  return data ?? [];
+  return { products: data ?? [], total: count ?? 0 };
 }
 
 // PRNG determinístico (mulberry32) para poder "barajar" productos de forma
