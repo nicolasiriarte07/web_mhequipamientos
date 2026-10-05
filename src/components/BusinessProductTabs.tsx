@@ -21,7 +21,16 @@ const TAB_ICONS: Record<string, ReactNode> = {
   supermercado: (
     <path d="M3 3h2l.4 2M7 13h10l3-8H5.4M7 13 5.4 5M7 13l-1.5 3H17M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm7 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
   ),
+  panaderia: (
+    <path d="M4 14a8 6 0 1 0 16 0 8 6 0 1 0-16 0Z M9 11l-1 3M13 10l-1 4M17 11l-1 3" />
+  ),
 };
+
+const priceFormatter = new Intl.NumberFormat("es-AR", {
+  style: "currency",
+  currency: "ARS",
+  maximumFractionDigits: 0,
+});
 
 export function BusinessProductTabs({
   productsByTab,
@@ -30,6 +39,7 @@ export function BusinessProductTabs({
 }) {
   const [active, setActive] = useState<string>(BUSINESS_PRODUCT_TABS[0].slug);
   const products = productsByTab[active] ?? [];
+  const comboTotal = products.reduce((sum, p) => sum + (p.precio ?? 0), 0);
 
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
@@ -78,11 +88,20 @@ export function BusinessProductTabs({
             Todavía no hay productos cargados para este rubro.
           </p>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            <div className="mt-6 flex items-center justify-between rounded-xl bg-brand/5 px-5 py-4">
+              <span className="text-sm font-medium text-gray-700">Total del combo</span>
+              <span className="text-xl font-bold text-brand">
+                {priceFormatter.format(comboTotal)}
+              </span>
+            </div>
+          </>
         )}
       </div>
     </div>

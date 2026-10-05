@@ -6,7 +6,7 @@ import {
   getBriketMaster,
   getBrands,
   getProductsByCategorySlug,
-  getProductsByCategorySlugs,
+  getProductsByIds,
 } from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SearchBar } from "@/components/SearchBar";
@@ -51,9 +51,7 @@ export default async function HomePage() {
     getBrands(),
     getProductsByCategorySlug("gastronomia", 12),
     getProductsByCategorySlug("alimentos", 12),
-    Promise.all(
-      BUSINESS_PRODUCT_TABS.map((tab) => getProductsByCategorySlugs([...tab.categorySlugs], 8))
-    ),
+    Promise.all(BUSINESS_PRODUCT_TABS.map((tab) => getProductsByIds([...tab.productIds]))),
   ]);
 
   const productsByBusinessTab: Record<string, Product[]> = Object.fromEntries(
