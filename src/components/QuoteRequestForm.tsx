@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { event } from "@/lib/gtag";
+import { event as fbEvent } from "@/lib/fbpixel";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -49,6 +50,7 @@ export function QuoteRequestForm() {
     }
 
     event("generate_lead", { method: "web_form" });
+    fbEvent("Lead");
     setStatus("success");
     form.reset();
   }

@@ -3,6 +3,7 @@
 import type { Product } from "@/lib/types";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/context/ToastContext";
+import { event as fbEvent } from "@/lib/fbpixel";
 
 export function AddToCartButton({
   product,
@@ -20,6 +21,11 @@ export function AddToCartButton({
         e.preventDefault();
         e.stopPropagation();
         addItem(product);
+        fbEvent("AddToCart", {
+          content_name: product.titulo,
+          value: product.precio ?? undefined,
+          currency: "ARS",
+        });
         showToast(`"${product.titulo}" se agregó al carrito`, {
           label: "Ver carrito",
           href: "/carrito",

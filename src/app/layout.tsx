@@ -9,6 +9,8 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BackToTop } from "@/components/BackToTop";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { GoogleAnalyticsPageview } from "@/components/GoogleAnalyticsPageview";
+import { MetaPixel } from "@/components/MetaPixel";
+import { MetaPixelPageview } from "@/components/MetaPixelPageview";
 import { getCategories } from "@/lib/data";
 import { SITE_URL } from "@/lib/business";
 
@@ -54,8 +56,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <GoogleAnalytics />
+        <MetaPixel />
         <Suspense fallback={null}>
           <GoogleAnalyticsPageview />
+          <MetaPixelPageview />
         </Suspense>
         <Providers>
           <Header categories={categories} />

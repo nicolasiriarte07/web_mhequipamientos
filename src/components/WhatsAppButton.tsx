@@ -4,6 +4,7 @@ import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { useStickyBar } from "@/context/StickyBarContext";
 import { event } from "@/lib/gtag";
+import { event as fbEvent } from "@/lib/fbpixel";
 
 export function WhatsAppButton() {
   const { active } = useStickyBar();
@@ -18,7 +19,10 @@ export function WhatsAppButton() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Escribinos por WhatsApp"
-        onClick={() => event("contact", { method: "whatsapp", source: "floating_button" })}
+        onClick={() => {
+          event("contact", { method: "whatsapp", source: "floating_button" });
+          fbEvent("Contact");
+        }}
         className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl ring-4 ring-white/50 transition-transform hover:scale-110"
       >
         <WhatsAppIcon className="h-8 w-8" />
