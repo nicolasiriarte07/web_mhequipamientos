@@ -10,7 +10,7 @@ import { ProductGrid } from "@/components/ProductGrid";
 import { ShareButton } from "@/components/ShareButton";
 import { RecordRecentlyViewed } from "@/components/RecordRecentlyViewed";
 import { StickyPurchaseBar } from "@/components/StickyPurchaseBar";
-import { parseSpecLines } from "@/lib/specs";
+import { parseProductContent } from "@/lib/specs";
 import { BUSINESS_NAME, SITE_URL } from "@/lib/business";
 import { breadcrumbJsonLd, priceValidUntil } from "@/lib/structuredData";
 
@@ -59,7 +59,9 @@ export default async function ProductoPage({ params }: Params) {
     ? await getRelatedProducts(product.categoria_id, product.id)
     : [];
 
-  const specLines = product.descripcion ? parseSpecLines(product.descripcion) : [];
+  const { description: proseDescription, specLines } = product.descripcion
+    ? parseProductContent(product.descripcion)
+    : { description: null, specLines: [] };
   const productUrl = `${SITE_URL}/productos/${product.id}`;
 
   const images = [
@@ -188,6 +190,21 @@ export default async function ProductoPage({ params }: Params) {
           <ProductTrustBadges product={product} />
         </div>
       </div>
+
+      {proseDescription && (
+        <div className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-lg font-bold text-gray-900">Descripción</h2>
+          <div className="mt-4 flex flex-col gap-3 text-sm leading-relaxed text-gray-700">
+            {proseDescription
+              .split(/\n+/)
+              .map((p) => p.trim())
+              .filter(Boolean)
+              .map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+          </div>
+        </div>
+      )}
 
       {specLines.length > 0 && (
         <div className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">

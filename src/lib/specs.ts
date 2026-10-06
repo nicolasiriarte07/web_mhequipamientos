@@ -17,3 +17,34 @@ export function parseSpecLines(descripcion: string): string[] {
     .map((sentence) => sentence.replace(/[.;]\s*$/, "").trim())
     .filter(Boolean);
 }
+
+export type ProductContent = {
+  description: string | null;
+  specLines: string[];
+};
+
+const SPECS_MARKER_RE = /especificaciones\s*:\s*/i;
+const DESCRIPTION_PREFIX_RE = /^descripci[oó]n\s*:\s*/i;
+
+// Si en Supabase se cargó la descripción con el formato
+// "Descripción: ...texto libre...\nEspecificaciones:\nClave: valor\n...",
+// separa el párrafo comercial de la lista técnica. Si no encuentra el
+// marcador "Especificaciones:", mantiene el comportamiento de siempre
+// (todo el texto se muestra como viñetas), para no romper los productos
+// ya cargados que no siguen esta convención.
+export function parseProductContent(raw: string): ProductContent {
+  const text = raw.trim();
+  const match = text.match(SPECS_MARKER_RE);
+
+  if (!match || match.index == null) {
+    return { description: null, specLines: parseSpecLines(text) };
+  }
+
+  const before = text.slice(0, match.index).trim().replace(DESCRIPTION_PREFIX_RE, "").trim();
+  const after = text.slice(match.index + match[0].length).trim();
+
+  return {
+    description: before || null,
+    specLines: after ? parseSpecLines(after) : [],
+  };
+}
