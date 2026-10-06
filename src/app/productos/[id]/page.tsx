@@ -12,6 +12,7 @@ import { RecordRecentlyViewed } from "@/components/RecordRecentlyViewed";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { StickyPurchaseBar } from "@/components/StickyPurchaseBar";
 import { parseProductContent } from "@/lib/specs";
+import { getRubroIcon } from "@/lib/rubroIcons";
 import { BUSINESS_NAME, SITE_URL } from "@/lib/business";
 import { breadcrumbJsonLd, priceValidUntil } from "@/lib/structuredData";
 
@@ -60,9 +61,9 @@ export default async function ProductoPage({ params }: Params) {
     ? await getRelatedProducts(product.categoria_id, product.id)
     : [];
 
-  const { description: proseDescription, specLines } = product.descripcion
+  const { description: proseDescription, specLines, idealPara } = product.descripcion
     ? parseProductContent(product.descripcion)
-    : { description: null, specLines: [] };
+    : { description: null, specLines: [], idealPara: [] };
   const productUrl = `${SITE_URL}/productos/${product.id}`;
 
   const images = [
@@ -211,6 +212,37 @@ export default async function ProductoPage({ params }: Params) {
                   </p>
                 );
               })}
+          </div>
+        </div>
+      )}
+
+      {idealPara.length > 0 && (
+        <div className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-lg font-bold text-gray-900">Ideal para</h2>
+          <p className="mt-1 text-sm text-gray-500">Rubros a los que les sirve este equipo</p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            {idealPara.map((rubro) => (
+              <div
+                key={rubro}
+                className="flex items-center gap-2.5 rounded-xl border-2 border-brand/20 bg-brand/5 px-4 py-3"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.75}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-6 w-6 shrink-0 text-brand"
+                  aria-hidden
+                >
+                  {getRubroIcon(rubro)}
+                </svg>
+                <span className="text-sm font-semibold text-gray-800">
+                  {rubro.charAt(0).toUpperCase() + rubro.slice(1)}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       )}

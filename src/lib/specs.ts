@@ -21,10 +21,31 @@ export function parseSpecLines(descripcion: string): string[] {
 export type ProductContent = {
   description: string | null;
   specLines: string[];
+  idealPara: string[];
 };
 
 const SPECS_MARKER_RE = /especificaciones\s*:\s*/i;
 const DESCRIPTION_PREFIX_RE = /^descripci[oó]n\s*:\s*/i;
+const IDEAL_PARA_RE = /^ideal\s+para\s*:\s*/i;
+
+// Separa de las líneas de especificaciones la que arranca con
+// "Ideal para: ..." (si está), para mostrarla en su propio bloque con
+// íconos en vez de como una viñeta técnica más.
+function extractIdealPara(specLines: string[]): { specLines: string[]; idealPara: string[] } {
+  const idealLine = specLines.find((line) => IDEAL_PARA_RE.test(line));
+  if (!idealLine) return { specLines, idealPara: [] };
+
+  const idealPara = idealLine
+    .replace(IDEAL_PARA_RE, "")
+    .split(",")
+    .map((r) => r.trim())
+    .filter(Boolean);
+
+  return {
+    specLines: specLines.filter((line) => line !== idealLine),
+    idealPara,
+  };
+}
 
 // Si en Supabase se cargó la descripción con el formato
 // "Descripción: ...texto libre...\nEspecificaciones:\nClave: valor\n...",
@@ -37,14 +58,17 @@ export function parseProductContent(raw: string): ProductContent {
   const match = text.match(SPECS_MARKER_RE);
 
   if (!match || match.index == null) {
-    return { description: null, specLines: parseSpecLines(text) };
+    const { specLines, idealPara } = extractIdealPara(parseSpecLines(text));
+    return { description: null, specLines, idealPara };
   }
 
   const before = text.slice(0, match.index).trim().replace(DESCRIPTION_PREFIX_RE, "").trim();
   const after = text.slice(match.index + match[0].length).trim();
+  const { specLines, idealPara } = extractIdealPara(after ? parseSpecLines(after) : []);
 
   return {
     description: before || null,
-    specLines: after ? parseSpecLines(after) : [],
+    specLines,
+    idealPara,
   };
 }
