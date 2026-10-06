@@ -59,6 +59,7 @@ export function CarritoClient() {
                     src={product.imagen_url}
                     alt={product.titulo}
                     fill
+                    sizes="80px"
                     className="rounded-lg object-contain p-1"
                   />
                 )}

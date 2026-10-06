@@ -35,6 +35,7 @@ export function ProductGallery({
             src={mainImage}
             alt={alt}
             fill
+            sizes="(max-width: 640px) 100vw, 50vw"
             className="object-contain p-6 transition-transform duration-300 group-hover:scale-110"
             priority
           />
@@ -79,7 +80,7 @@ export function ProductGallery({
                 i === active ? "border-brand" : "border-transparent hover:border-gray-300"
               }`}
             >
-              <Image src={url} alt="" fill className="object-contain p-1" />
+              <Image src={url} alt="" fill sizes="64px" className="object-contain p-1" />
             </button>
           ))}
         </div>

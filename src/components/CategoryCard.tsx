@@ -12,7 +12,13 @@ export function CategoryCard({ category }: { category: Category }) {
       <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-brand to-brand-dark sm:h-48 lg:h-56">
         {image ? (
           <>
-            <Image src={image} alt={category.nombre} fill className="object-cover" />
+            <Image
+              src={image}
+              alt={category.nombre}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/10 to-transparent" />
             <span className="absolute inset-x-0 bottom-0 p-4 text-xl font-extrabold tracking-wide text-white">
               {category.nombre.toUpperCase()}

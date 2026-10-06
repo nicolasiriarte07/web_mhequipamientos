@@ -21,6 +21,7 @@ export function ProductCard({ product }: { product: Product }) {
             src={product.imagen_url}
             alt={product.titulo}
             fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-contain p-4"
           />
         ) : (

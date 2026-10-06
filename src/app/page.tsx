@@ -119,6 +119,7 @@ export default async function HomePage() {
               alt="MH Equipamientos"
               fill
               priority
+              sizes="100vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/85 via-brand-dark/70 to-brand-dark/40" />
