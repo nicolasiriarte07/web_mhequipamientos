@@ -194,14 +194,22 @@ export default async function ProductoPage({ params }: Params) {
       {proseDescription && (
         <div className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
           <h2 className="text-lg font-bold text-gray-900">Descripción</h2>
-          <div className="mt-4 flex flex-col gap-3 text-sm leading-relaxed text-gray-700">
+          <div className="mt-4 flex flex-col gap-3 border-l-4 border-brand/25 bg-brand/5 py-3 pl-5 pr-4 text-base leading-relaxed text-gray-700">
             {proseDescription
               .split(/\n+/)
               .map((p) => p.trim())
               .filter(Boolean)
-              .map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
+              .map((paragraph, i) => {
+                if (i !== 0) return <p key={i}>{paragraph}</p>;
+                const match = paragraph.match(/^(.*?[.!?])\s+(.*)$/);
+                if (!match) return <p key={i}>{paragraph}</p>;
+                return (
+                  <p key={i}>
+                    <strong className="font-semibold text-gray-900">{match[1]}</strong>{" "}
+                    {match[2]}
+                  </p>
+                );
+              })}
           </div>
         </div>
       )}
