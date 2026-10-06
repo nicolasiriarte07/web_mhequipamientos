@@ -14,3 +14,6 @@ export const PAYMENT_METHODS = [
 ];
 
 export const SITE_URL = "https://equipamientosmh.com.ar";
+
+export const LEAD_NOTIFICATION_EMAIL = "ventas@mundohogar.com.ar";
+export const LEAD_FROM_EMAIL = "MH Equipamientos <notificaciones@equipamientosmh.com.ar>";

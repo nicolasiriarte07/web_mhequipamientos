@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabase/client";
 import { event } from "@/lib/gtag";
 import { event as fbEvent } from "@/lib/fbpixel";
 
@@ -35,15 +34,28 @@ export function QuoteRequestForm() {
 
     setStatus("submitting");
 
-    const { error } = await supabase.from("leads_web").insert({
-      nombre,
-      telefono,
-      email: String(data.get("email") ?? "").trim() || null,
-      nombre_comercio: String(data.get("nombre_comercio") ?? "").trim() || null,
-      mensaje: String(data.get("mensaje") ?? "").trim() || null,
-    });
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre,
+          telefono,
+          email: String(data.get("email") ?? "").trim(),
+          nombre_comercio: String(data.get("nombre_comercio") ?? "").trim(),
+          mensaje: String(data.get("mensaje") ?? "").trim(),
+        }),
+      });
 
-    if (error) {
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        setStatus("error");
+        setErrorMsg(
+          body?.error ?? "No pudimos enviar tu consulta. Probá de nuevo o escribinos por WhatsApp."
+        );
+        return;
+      }
+    } catch {
       setStatus("error");
       setErrorMsg("No pudimos enviar tu consulta. Probá de nuevo o escribinos por WhatsApp.");
       return;
