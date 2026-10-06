@@ -34,11 +34,17 @@ export function InstallmentOptions({ precio }: { precio: number }) {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         {CARD_INSTALLMENTS.map(({ count, multiplier }) => (
-          <div key={count} className="rounded-lg bg-gray-50 px-3 py-2.5">
-            <p className="text-xs text-gray-500">{count} cuotas de</p>
-            <p className="text-base font-bold text-gray-900">
+          <div
+            key={count}
+            className="rounded-xl border-2 border-brand/25 bg-brand/5 px-3 py-3 text-center"
+          >
+            <p className="text-2xl font-extrabold leading-none text-brand-dark">{count}</p>
+            <p className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              cuotas de
+            </p>
+            <p className="mt-1.5 text-lg font-bold text-gray-900">
               {priceFormatter.format(installmentAmount(precio, multiplier, count))}
             </p>
           </div>

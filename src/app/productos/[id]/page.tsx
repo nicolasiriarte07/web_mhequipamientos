@@ -145,9 +145,16 @@ export default async function ProductoPage({ params }: Params) {
             </span>
           )}
 
-          <span className="text-4xl font-extrabold text-brand-dark">
-            {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
-          </span>
+          <div className="flex flex-col gap-1">
+            {product.precio != null && (
+              <span className="w-fit rounded-full bg-brand/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-brand-dark">
+                Precio contado
+              </span>
+            )}
+            <span className="text-4xl font-extrabold text-brand-dark">
+              {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
+            </span>
+          </div>
 
           {product.precio != null && <InstallmentOptions precio={product.precio} />}
 
