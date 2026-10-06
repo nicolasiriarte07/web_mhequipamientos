@@ -9,6 +9,7 @@ import { ProductTrustBadges } from "@/components/ProductTrustBadges";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ShareButton } from "@/components/ShareButton";
 import { RecordRecentlyViewed } from "@/components/RecordRecentlyViewed";
+import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { StickyPurchaseBar } from "@/components/StickyPurchaseBar";
 import { parseProductContent } from "@/lib/specs";
 import { BUSINESS_NAME, SITE_URL } from "@/lib/business";
@@ -250,6 +251,10 @@ export default async function ProductoPage({ params }: Params) {
           <ProductGrid title="También te puede interesar" products={related} />
         </div>
       )}
+
+      <div className="mt-8">
+        <RecentlyViewed excludeId={product.id} />
+      </div>
 
       <StickyPurchaseBar product={product} anchorId="purchase-panel" />
     </div>

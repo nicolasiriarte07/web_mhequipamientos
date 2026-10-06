@@ -1,4 +1,5 @@
 import { CARD_INSTALLMENTS, DEBIT_INSTALLMENT, installmentAmount } from "@/lib/installments";
+import { VisaMark, MastercardMark } from "@/components/icons/CardMarks";
 
 const priceFormatter = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -15,23 +16,14 @@ export function InstallmentOptions({ precio }: { precio: number }) {
 
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-gray-200 p-4">
-      <div className="flex items-center gap-1.5">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1.75}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-4 w-4 text-gray-400"
-          aria-hidden
-        >
-          <rect x="2" y="5" width="20" height="14" rx="2" />
-          <path d="M2 10h20" />
-        </svg>
+      <div className="flex items-center justify-between gap-2">
         <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
           Con todas las tarjetas
         </p>
+        <div className="flex items-center gap-1.5">
+          <VisaMark className="h-[18px]" />
+          <MastercardMark className="h-[18px] w-auto" />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
