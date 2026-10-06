@@ -12,7 +12,8 @@ import { GoogleAnalyticsPageview } from "@/components/GoogleAnalyticsPageview";
 import { MetaPixel } from "@/components/MetaPixel";
 import { MetaPixelPageview } from "@/components/MetaPixelPageview";
 import { getCategories } from "@/lib/data";
-import { SITE_URL } from "@/lib/business";
+import { BUSINESS_NAME, SITE_URL } from "@/lib/business";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/structuredData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,18 +30,32 @@ const sora = Sora({
   subsets: ["latin"],
 });
 
+const DESCRIPTION =
+  "Equipamiento comercial y gastronómico en Carhué, provincia de Buenos Aires. Acompañamos el crecimiento de tu negocio.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "MH Equipamientos | Equipamiento comercial",
     template: "%s | MH Equipamientos",
   },
-  description:
-    "Equipamiento comercial y gastronómico en Carhué, provincia de Buenos Aires. Acompañamos el crecimiento de tu negocio.",
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     locale: "es_AR",
-    siteName: "MH Equipamientos",
+    siteName: BUSINESS_NAME,
+    url: SITE_URL,
+    title: "MH Equipamientos | Equipamiento comercial",
+    description: DESCRIPTION,
+    images: [{ url: "/banner/hero.png", width: 1200, height: 630, alt: BUSINESS_NAME }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MH Equipamientos | Equipamiento comercial",
+    description: DESCRIPTION,
+    images: ["/banner/hero.png"],
   },
 };
 
@@ -55,6 +70,14 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+        />
         <GoogleAnalytics />
         <MetaPixel />
         <Suspense fallback={null}>

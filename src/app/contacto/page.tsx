@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BUSINESS_ADDRESS, BUSINESS_HOURS } from "@/lib/business";
+import { BUSINESS_ADDRESS, BUSINESS_HOURS, INSTAGRAM_URL } from "@/lib/business";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
 import { QuoteRequestForm } from "@/components/QuoteRequestForm";
 
-const INSTAGRAM_URL = "https://www.instagram.com/equipamientos.mh/";
-
 export const metadata: Metadata = {
-  title: "Contacto | MH Equipamientos",
+  title: "Contacto",
   description:
     "Contactate con MH Equipamientos en Carhué, provincia de Buenos Aires: dirección, horarios, WhatsApp e Instagram.",
+  alternates: { canonical: "/contacto" },
 };
 
 export default function ContactoPage() {

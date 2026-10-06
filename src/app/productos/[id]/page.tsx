@@ -11,7 +11,8 @@ import { ShareButton } from "@/components/ShareButton";
 import { RecordRecentlyViewed } from "@/components/RecordRecentlyViewed";
 import { StickyPurchaseBar } from "@/components/StickyPurchaseBar";
 import { parseSpecLines } from "@/lib/specs";
-import { SITE_URL } from "@/lib/business";
+import { BUSINESS_NAME, SITE_URL } from "@/lib/business";
+import { breadcrumbJsonLd, priceValidUntil } from "@/lib/structuredData";
 
 export const revalidate = 30;
 
@@ -76,23 +77,47 @@ export default async function ProductoPage({ params }: Params) {
     description: product.descripcion ?? undefined,
     image: images.length > 0 ? images : undefined,
     sku: String(product.id),
+    category: product.categorias?.nombre ?? undefined,
     brand: product.marca ? { "@type": "Brand", name: product.marca } : undefined,
-    offers: {
-      "@type": "Offer",
-      url: productUrl,
-      priceCurrency: "ARS",
-      price: product.precio ?? undefined,
-      availability: product.disponible
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-    },
+    offers:
+      product.precio != null
+        ? {
+            "@type": "Offer",
+            url: productUrl,
+            priceCurrency: "ARS",
+            price: product.precio,
+            priceValidUntil: priceValidUntil(),
+            itemCondition: "https://schema.org/NewCondition",
+            availability: product.disponible
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock",
+            seller: { "@type": "Organization", name: BUSINESS_NAME, url: SITE_URL },
+          }
+        : undefined,
   };
+
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Catálogo", url: `${SITE_URL}/productos` },
+    ...(product.categorias
+      ? [
+          {
+            name: product.categorias.nombre,
+            url: `${SITE_URL}/productos?categoria=${product.categorias.id}`,
+          },
+        ]
+      : []),
+    { name: product.titulo, url: productUrl },
+  ]);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 pb-28 sm:px-6 sm:pb-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
       <RecordRecentlyViewed product={product} />
 

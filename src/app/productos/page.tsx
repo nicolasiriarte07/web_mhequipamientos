@@ -4,6 +4,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { ProductFilters } from "@/components/ProductFilters";
 import { ProductCard } from "@/components/ProductCard";
 import { Pagination } from "@/components/Pagination";
+import { SITE_URL } from "@/lib/business";
 
 export const revalidate = 30;
 
@@ -23,11 +24,31 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const params = await searchParams;
   const categoryId = params.categoria ? Number(params.categoria) : undefined;
-  if (!categoryId) return { title: "Catálogo" };
+  const categories = categoryId ? await getCategories() : [];
+  const category = categoryId ? categories.find((c) => c.id === categoryId) : undefined;
 
-  const categories = await getCategories();
-  const category = categories.find((c) => c.id === categoryId);
-  return { title: category ? category.nombre : "Catálogo" };
+  const title = category ? category.nombre : "Catálogo";
+  const description = category
+    ? `Comprá ${category.nombre.toLowerCase()} en MH Equipamientos: equipamiento comercial y gastronómico en Carhué, con envíos a toda la región y financiación en cuotas.`
+    : "Catálogo completo de equipamiento comercial y gastronómico: heladeras, exhibidoras, cocinas, balanzas y más. Envíos a toda la región y financiación en cuotas.";
+
+  // Los filtros de búsqueda/marca/disponibilidad generan muchas combinaciones
+  // de poco valor para indexar (resultados angostos o repetidos); el canonical
+  // siempre apunta a la versión "limpia" por categoría, y esas combinaciones
+  // puntuales van con noindex para no diluir el catálogo en los buscadores.
+  const isFiltered = Boolean(params.q || params.marca || params.inmediata === "1");
+  const page = params.pagina ? Number(params.pagina) : 1;
+  const canonicalParams = new URLSearchParams();
+  if (categoryId) canonicalParams.set("categoria", String(categoryId));
+  if (page > 1 && !isFiltered) canonicalParams.set("pagina", String(page));
+  const canonicalQuery = canonicalParams.toString();
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/productos${canonicalQuery ? `?${canonicalQuery}` : ""}` },
+    robots: isFiltered ? { index: false, follow: true } : undefined,
+  };
 }
 
 export default async function ProductosPage({
@@ -72,8 +93,28 @@ export default async function ProductosPage({
     return `/productos${qs ? `?${qs}` : ""}`;
   }
 
+  const itemListJsonLd =
+    products.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: products.map((product, i) => ({
+            "@type": "ListItem",
+            position: (currentPage - 1) * PRODUCTS_PAGE_SIZE + i + 1,
+            url: `${SITE_URL}/productos/${product.id}`,
+            name: product.titulo,
+          })),
+        }
+      : null;
+
   return (
     <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10">
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
           {activeCategory ? activeCategory.nombre : "Catálogo completo"}

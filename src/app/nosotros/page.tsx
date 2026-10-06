@@ -4,9 +4,10 @@ import { PaymentMethods } from "@/components/PaymentMethods";
 import { Testimonials } from "@/components/Testimonials";
 
 export const metadata: Metadata = {
-  title: "Nosotros | MH Equipamientos",
+  title: "Nosotros",
   description:
     "Conocé la historia de Mundo Hogar y MH Equipamientos: más de 30 años acompañando a las familias y comercios de Carhué y la región.",
+  alternates: { canonical: "/nosotros" },
 };
 
 const TIMELINE = [

@@ -2,9 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { BUSINESS_ADDRESS, BUSINESS_HOURS } from "@/lib/business";
+import { BUSINESS_ADDRESS, BUSINESS_HOURS, INSTAGRAM_URL } from "@/lib/business";
 
-const INSTAGRAM_URL = "https://www.instagram.com/equipamientos.mh/";
 const MUNDO_HOGAR_URL = "https://www.mundohogar.com.ar";
 
 export function Footer() {
