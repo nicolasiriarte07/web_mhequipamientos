@@ -49,13 +49,13 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: "MH Equipamientos | Equipamiento comercial",
     description: DESCRIPTION,
-    images: [{ url: "/banner/hero.png", width: 1200, height: 630, alt: BUSINESS_NAME }],
+    images: [{ url: "/banner/hero.webp", width: 1200, height: 630, alt: BUSINESS_NAME }],
   },
   twitter: {
     card: "summary_large_image",
     title: "MH Equipamientos | Equipamiento comercial",
     description: DESCRIPTION,
-    images: ["/banner/hero.png"],
+    images: ["/banner/hero.webp"],
   },
 };
 
