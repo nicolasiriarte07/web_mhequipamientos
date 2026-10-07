@@ -9,6 +9,7 @@ import {
   getProductsByIds,
 } from "@/lib/data";
 import { CategoryCard } from "@/components/CategoryCard";
+import { CategoryIconStrip } from "@/components/CategoryIconStrip";
 import { SearchBar } from "@/components/SearchBar";
 import { HAS_HERO_IMAGE, HERO_IMAGE } from "@/lib/heroImage";
 import { Highlights } from "@/components/Highlights";
@@ -111,6 +112,8 @@ export default async function HomePage() {
 
   return (
     <div>
+      <CategoryIconStrip categories={categories} />
+
       {HAS_HERO_IMAGE ? (
         <section className="mx-auto max-w-[1600px] px-4 pt-8 sm:px-6 lg:px-10">
           <div className="relative overflow-hidden rounded-3xl">
@@ -153,6 +156,14 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
+        <ProductGrid
+          title="Ofertas que no te podés perder"
+          subtitle="Productos con entrega inmediata, directo a tu negocio"
+          products={offers}
+        />
+      </section>
+
+      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <div className="mb-8 text-center">
           <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
             Encontrá todo para tu negocio
@@ -176,14 +187,6 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <RecentlyViewed />
-      </section>
-
-      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
-        <ProductGrid
-          title="Ofertas que no te podés perder"
-          subtitle="Productos con entrega inmediata, directo a tu negocio"
-          products={offers}
-        />
       </section>
 
       <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
