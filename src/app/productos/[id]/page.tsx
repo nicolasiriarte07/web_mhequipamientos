@@ -13,6 +13,8 @@ import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { StickyPurchaseBar } from "@/components/StickyPurchaseBar";
 import { parseProductContent } from "@/lib/specs";
 import { getRubroIcon } from "@/lib/rubroIcons";
+import { Accordion } from "@/components/Accordion";
+import { FAQ_ITEMS } from "@/lib/faq";
 import { BUSINESS_NAME, SITE_URL } from "@/lib/business";
 import { breadcrumbJsonLd, priceValidUntil } from "@/lib/structuredData";
 
@@ -277,6 +279,14 @@ export default async function ProductoPage({ params }: Params) {
           </ul>
         </div>
       )}
+
+      <div className="mt-8">
+        <div className="mb-4">
+          <h2 className="text-lg font-bold text-gray-900">Preguntas Frecuentes</h2>
+          <p className="mt-1 text-sm text-gray-500">Las dudas más comunes antes de comprar</p>
+        </div>
+        <Accordion items={FAQ_ITEMS} />
+      </div>
 
       {related.length > 0 && (
         <div className="mt-8">
