@@ -91,6 +91,12 @@ export function Footer() {
               Mundo Hogar
             </a>
           </p>
+          <Link
+            href="/privacidad"
+            className="font-medium text-white/70 underline underline-offset-2 hover:text-white"
+          >
+            Política de Privacidad
+          </Link>
         </div>
       </div>
     </footer>
