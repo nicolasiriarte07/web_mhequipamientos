@@ -25,14 +25,8 @@ import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { BUSINESS_PRODUCT_TABS } from "@/lib/businessProductTabs";
+import { TrustStrip } from "@/components/TrustStrip";
 import type { Product } from "@/lib/types";
-
-const TRUST_STRIP_ITEMS = [
-  "Más de 30 años en el rubro",
-  "Envíos a toda la región",
-  "Financiación hasta el 100%",
-  "Atención directa por WhatsApp",
-];
 
 export const revalidate = 60;
 
@@ -134,25 +128,7 @@ export default async function HomePage() {
       )}
 
       <section className="mx-auto max-w-[1600px] px-4 pt-6 sm:px-6 lg:px-10">
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-2xl bg-white px-6 py-4 shadow-sm">
-          {TRUST_STRIP_ITEMS.map((item) => (
-            <span key={item} className="flex items-center gap-2 text-sm font-medium text-gray-700">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-4 w-4 shrink-0 text-brand"
-                aria-hidden
-              >
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
-              {item}
-            </span>
-          ))}
-        </div>
+        <TrustStrip />
       </section>
 
       <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
