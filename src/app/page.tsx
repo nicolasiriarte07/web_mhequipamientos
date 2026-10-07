@@ -110,16 +110,22 @@ export default async function HomePage() {
 
       {HAS_HERO_IMAGE ? (
         <section className="mx-auto max-w-[1600px] px-4 pt-8 sm:px-6 lg:px-10">
-          <div className="relative overflow-hidden rounded-3xl">
-            <Image
-              src={HERO_IMAGE}
-              alt="MH Equipamientos"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/85 via-brand-dark/70 to-brand-dark/40" />
+          <div className="relative rounded-3xl">
+            {/* La imagen y el degradado van recortados en su propio
+                contenedor, separado del contenido de arriba (buscador
+                incluido), para que el dropdown de sugerencias no quede
+                cortado por el overflow-hidden de las esquinas redondeadas. */}
+            <div className="absolute inset-0 overflow-hidden rounded-3xl">
+              <Image
+                src={HERO_IMAGE}
+                alt="MH Equipamientos"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/85 via-brand-dark/70 to-brand-dark/40" />
+            </div>
             {heroContent}
           </div>
         </section>
