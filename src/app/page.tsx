@@ -215,7 +215,7 @@ export default async function HomePage() {
         <PaymentMethods />
       </section>
 
-      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
+      <section id="cobertura" className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <ShippingCoverage />
       </section>
 

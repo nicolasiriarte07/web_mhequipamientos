@@ -97,6 +97,12 @@ export function Header({ categories }: { categories: Category[] }) {
                   >
                     Contacto
                   </Link>
+                  <Link
+                    href="/preguntas-frecuentes"
+                    className="px-4 py-2.5 font-semibold text-gray-700 hover:bg-brand/5 hover:text-brand"
+                  >
+                    Preguntas Frecuentes
+                  </Link>
                 </div>
                 <div className="border-t border-gray-100 px-4 pb-2 pt-3">
                   <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">

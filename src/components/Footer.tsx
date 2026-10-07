@@ -28,6 +28,12 @@ export function Footer() {
             >
               Conocé más sobre nosotros
             </Link>
+            <Link
+              href="/preguntas-frecuentes"
+              className="text-sm font-medium text-white/80 underline underline-offset-2 hover:text-white"
+            >
+              Preguntas Frecuentes
+            </Link>
           </div>
 
           <div className="flex flex-col items-center gap-2 sm:items-start">
