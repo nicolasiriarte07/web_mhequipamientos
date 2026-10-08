@@ -16,7 +16,6 @@ import { Highlights } from "@/components/Highlights";
 import { BrandsStrip } from "@/components/BrandsStrip";
 import { BusinessTypes } from "@/components/BusinessTypes";
 import { BusinessProductTabs } from "@/components/BusinessProductTabs";
-import { ProjectSimulator } from "@/components/ProjectSimulator";
 import { PaymentMethods } from "@/components/PaymentMethods";
 import { Testimonials } from "@/components/Testimonials";
 import { ShippingCoverage } from "@/components/ShippingCoverage";
@@ -174,10 +173,6 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
         <BusinessProductTabs productsByTab={productsByBusinessTab} />
-      </section>
-
-      <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">
-        <ProjectSimulator productsByTab={productsByBusinessTab} />
       </section>
 
       <section className="mx-auto max-w-[1600px] px-4 pt-14 sm:px-6 lg:px-10">

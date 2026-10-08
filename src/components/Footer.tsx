@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { WrenchIcon } from "@/components/icons/WrenchIcon";
 import { BUSINESS_ADDRESS, BUSINESS_HOURS, INSTAGRAM_URL } from "@/lib/business";
 
 const MUNDO_HOGAR_URL = "https://www.mundohogar.com.ar";
@@ -19,6 +20,13 @@ export function Footer() {
               height={60}
               className="h-10 w-auto"
             />
+            <Link
+              href="/arma-tu-negocio"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-brand-dark shadow-sm transition-colors hover:bg-white/90"
+            >
+              <WrenchIcon className="h-4 w-4" />
+              Armá tu negocio
+            </Link>
             <p className="max-w-xs text-sm text-white/70">
               Equipamiento comercial para tu negocio. Carhué, provincia de Buenos Aires.
             </p>

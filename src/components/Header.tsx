@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { SearchBar } from "@/components/SearchBar";
+import { WrenchIcon } from "@/components/icons/WrenchIcon";
 import { getCategoryImage } from "@/lib/categoryImages";
 import type { Category } from "@/lib/types";
 
@@ -174,6 +175,15 @@ export function Header({ categories }: { categories: Category[] }) {
         </Link>
 
         <div className="flex items-center justify-self-end gap-2 sm:gap-3">
+          <Link
+            href="/arma-tu-negocio"
+            aria-label="Armá tu negocio"
+            className="flex h-10 w-10 items-center justify-center gap-1.5 rounded-lg bg-white font-bold text-brand shadow-sm hover:bg-white/90 sm:h-auto sm:w-auto sm:rounded-full sm:px-4 sm:py-2 sm:text-sm"
+          >
+            <WrenchIcon className="h-5 w-5 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Armá tu negocio</span>
+          </Link>
+
           <Link
             href="/"
             aria-label="Ir al inicio"
