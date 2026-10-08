@@ -8,7 +8,7 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/productos/${product.id}`}
-      className="flex flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition-shadow hover:shadow-md"
+      className="flex h-full flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition-shadow hover:shadow-md"
     >
       <div className="relative h-40 w-full bg-gray-100 sm:h-52">
         {product.imagen_url ? (
@@ -32,7 +32,9 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4 sm:p-5">
-        <h3 className="text-sm font-semibold text-gray-900 sm:text-base">{product.titulo}</h3>
+        <h3 className="line-clamp-2 text-sm font-semibold text-gray-900 sm:text-base">
+          {product.titulo}
+        </h3>
 
         {product.marca && (
           <span className="w-fit rounded-full bg-gray-900 px-2.5 py-0.5 text-xs font-medium text-white">

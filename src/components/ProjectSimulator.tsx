@@ -175,10 +175,12 @@ export function ProjectSimulator({
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+            <div className="grid grid-cols-2 items-stretch gap-4 sm:gap-6 lg:grid-cols-4">
               {included.map((product) => (
                 <div key={product.id} className="flex flex-col gap-2">
-                  <ProductCard product={product} />
+                  <div className="flex-1">
+                    <ProductCard product={product} />
+                  </div>
                   {budgetNumber > 0 && (
                     <span className="flex items-center gap-1.5 text-xs font-semibold text-green-700">
                       <svg
@@ -200,7 +202,9 @@ export function ProjectSimulator({
               ))}
               {excluded.map((product) => (
                 <div key={product.id} className="flex flex-col gap-2 opacity-70">
-                  <ProductCard product={product} />
+                  <div className="flex-1">
+                    <ProductCard product={product} />
+                  </div>
                   <span className="text-xs font-medium text-gray-500">Para más adelante</span>
                 </div>
               ))}
