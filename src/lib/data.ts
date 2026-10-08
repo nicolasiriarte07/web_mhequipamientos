@@ -130,6 +130,10 @@ function seedFromToday(): number {
   return hash;
 }
 
+// Productos destacados a mano, en este orden, antes de completar con el
+// resto de las ofertas (barajadas por día) hasta llegar a `count`.
+const FEATURED_OFFER_IDS = [579, 536, 180, 166, 142];
+
 export async function getMonthlyOffers(count = 5): Promise<Product[]> {
   const { data, error } = await supabase
     .from("productos")
@@ -143,13 +147,20 @@ export async function getMonthlyOffers(count = 5): Promise<Product[]> {
   }
 
   const products = data ?? [];
+  const byId = new Map(products.map((p) => [p.id, p]));
+  const featured = FEATURED_OFFER_IDS.map((id) => byId.get(id)).filter(
+    (p): p is Product => p != null
+  );
+  const featuredIds = new Set(featured.map((p) => p.id));
+
   const random = mulberry32(seedFromToday());
-  const shuffled = [...products];
+  const shuffled = products.filter((p) => !featuredIds.has(p.id));
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return shuffled.slice(0, count);
+
+  return [...featured, ...shuffled].slice(0, count);
 }
 
 export async function getProductById(id: number): Promise<Product | null> {

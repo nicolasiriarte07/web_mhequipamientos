@@ -12,7 +12,8 @@ export function BusinessProductTabs({
   productsByTab: Record<string, Product[]>;
 }) {
   const [active, setActive] = useState<string>(BUSINESS_PRODUCT_TABS[0].slug);
-  const products = productsByTab[active] ?? [];
+  // 3 filas x 4 columnas en desktop.
+  const products = (productsByTab[active] ?? []).slice(0, 12);
 
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:p-8">
