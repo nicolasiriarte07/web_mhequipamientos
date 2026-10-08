@@ -61,8 +61,10 @@ export function ProjectSimulator({
     return { included, excluded, total };
   }, [products, budgetNumber]);
 
-  const showResults = Boolean(activeTab) && products.length > 0;
-  const showNoResults = Boolean(activeTab) && products.length === 0;
+  const formComplete = Boolean(activeTab) && urgencia !== null && budgetNumber > 0;
+  const showResults = formComplete && products.length > 0;
+  const showNoResults = formComplete && products.length === 0;
+  const showIncomplete = Boolean(activeTab) && !formComplete;
 
   const message = [
     "Hola! Estoy por iniciar un nuevo proyecto.",
@@ -178,6 +180,13 @@ export function ProjectSimulator({
             className="mt-2 w-full max-w-xs rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </div>
+
+        {showIncomplete && (
+          <p className="text-sm text-gray-500">
+            Completá el tiempo estimado y el presupuesto para ver la propuesta armada para tu
+            negocio.
+          </p>
+        )}
 
         {showNoResults && (
           <p className="rounded-xl bg-amber-50 p-4 text-sm text-amber-800">
