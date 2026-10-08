@@ -9,4 +9,5 @@ export const BUSINESS_PRODUCT_TABS = [
   { slug: "emprendimiento", label: "Emprendimiento Gastronómico" },
   { slug: "supermercado", label: "Supermercado" },
   { slug: "panaderia", label: "Panadería" },
+  { slug: "carniceria", label: "Carnicería" },
 ] as const;
