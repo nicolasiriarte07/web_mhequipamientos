@@ -16,20 +16,29 @@ const priceFormatter = new Intl.NumberFormat("es-AR", {
   maximumFractionDigits: 0,
 });
 
+const URGENCY_OPTIONS = [
+  { value: "urgente", label: "Urgente" },
+  { value: "1-2-meses", label: "1 a 2 meses" },
+  { value: "mas-adelante", label: "Más adelante" },
+] as const;
+
 export function ProjectSimulator({
   productsByTab,
 }: {
   productsByTab: Record<string, Product[]>;
 }) {
   const [rubroSlug, setRubroSlug] = useState<string | null>(null);
-  const [m2, setM2] = useState("");
+  const [urgencia, setUrgencia] = useState<(typeof URGENCY_OPTIONS)[number]["value"] | null>(
+    null
+  );
   const [presupuesto, setPresupuesto] = useState("");
 
   const activeTab = BUSINESS_PRODUCT_TABS.find((t) => t.slug === rubroSlug);
-  const products = useMemo(
-    () => (rubroSlug ? (productsByTab[rubroSlug] ?? []) : []),
-    [rubroSlug, productsByTab]
-  );
+  const urgenciaLabel = URGENCY_OPTIONS.find((o) => o.value === urgencia)?.label;
+  const products = useMemo(() => {
+    const base = rubroSlug ? (productsByTab[rubroSlug] ?? []) : [];
+    return urgencia === "urgente" ? base.filter((p) => p.entrega_inmediata) : base;
+  }, [rubroSlug, productsByTab, urgencia]);
   const budgetNumber = Number(presupuesto) || 0;
 
   // Vamos sumando los productos del combo en el orden recomendado hasta que
@@ -53,11 +62,12 @@ export function ProjectSimulator({
   }, [products, budgetNumber]);
 
   const showResults = Boolean(activeTab) && products.length > 0;
+  const showNoResults = Boolean(activeTab) && products.length === 0;
 
   const message = [
     "Hola! Estoy por iniciar un nuevo proyecto.",
     activeTab ? `Rubro: ${activeTab.label}` : null,
-    m2.trim() ? `Metros cuadrados: ${m2.trim()} m²` : null,
+    urgenciaLabel ? `Tiempo estimado: ${urgenciaLabel}` : null,
     budgetNumber > 0 ? `Presupuesto aproximado: ${priceFormatter.format(budgetNumber)}` : null,
     "",
     "Me gustaría recibir asesoramiento para equipar mi negocio.",
@@ -69,7 +79,7 @@ export function ProjectSimulator({
     event("generate_lead", {
       method: "project_simulator",
       rubro: activeTab?.slug,
-      m2: m2.trim() || undefined,
+      urgencia: urgencia ?? undefined,
       presupuesto: budgetNumber || undefined,
     });
     fbEvent("Lead");
@@ -124,36 +134,57 @@ export function ProjectSimulator({
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="sim-m2" className="text-sm font-semibold text-gray-700">
-              ¿Cuántos m² tiene tu local?
-            </label>
-            <input
-              id="sim-m2"
-              type="number"
-              min={0}
-              value={m2}
-              onChange={(e) => setM2(e.target.value)}
-              placeholder="Ej: 40"
-              className="mt-2 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-brand"
-            />
+        <div>
+          <label className="text-sm font-semibold text-gray-700">
+            ¿Para cuándo lo necesitás?
+          </label>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {URGENCY_OPTIONS.map((opt) => {
+              const isActive = opt.value === urgencia;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setUrgencia(opt.value)}
+                  className={`rounded-xl border-2 px-3.5 py-2.5 text-sm font-medium transition-colors ${
+                    isActive
+                      ? "border-brand bg-brand text-white"
+                      : "border-gray-200 bg-white text-gray-700 hover:border-brand/40"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
           </div>
-          <div>
-            <label htmlFor="sim-presupuesto" className="text-sm font-semibold text-gray-700">
-              ¿Con qué presupuesto contás?
-            </label>
-            <input
-              id="sim-presupuesto"
-              type="number"
-              min={0}
-              value={presupuesto}
-              onChange={(e) => setPresupuesto(e.target.value)}
-              placeholder="Ej: 1000000"
-              className="mt-2 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-brand"
-            />
-          </div>
+          {urgencia === "urgente" && (
+            <p className="mt-2 text-xs text-gray-500">
+              Te mostramos solo los productos con entrega inmediata.
+            </p>
+          )}
         </div>
+
+        <div>
+          <label htmlFor="sim-presupuesto" className="text-sm font-semibold text-gray-700">
+            ¿Con qué presupuesto contás?
+          </label>
+          <input
+            id="sim-presupuesto"
+            type="number"
+            min={0}
+            value={presupuesto}
+            onChange={(e) => setPresupuesto(e.target.value)}
+            placeholder="Ej: 1000000"
+            className="mt-2 w-full max-w-xs rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-brand"
+          />
+        </div>
+
+        {showNoResults && (
+          <p className="rounded-xl bg-amber-50 p-4 text-sm text-amber-800">
+            No tenemos productos con entrega inmediata para este rubro en este momento. Probá con
+            otro tiempo estimado o escribinos directo por WhatsApp.
+          </p>
+        )}
 
         {showResults && (
           <div className="flex flex-col gap-5">
