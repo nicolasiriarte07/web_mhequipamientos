@@ -17,14 +17,9 @@ import { Accordion } from "@/components/Accordion";
 import { FAQ_ITEMS } from "@/lib/faq";
 import { BUSINESS_NAME, SITE_URL } from "@/lib/business";
 import { breadcrumbJsonLd, priceValidUntil } from "@/lib/structuredData";
+import { formatPrice, hasPrice } from "@/lib/price";
 
 export const revalidate = 30;
-
-const priceFormatter = new Intl.NumberFormat("es-AR", {
-  style: "currency",
-  currency: "ARS",
-  maximumFractionDigits: 0,
-});
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -86,7 +81,7 @@ export default async function ProductoPage({ params }: Params) {
     category: product.categorias?.nombre ?? undefined,
     brand: product.marca ? { "@type": "Brand", name: product.marca } : undefined,
     offers:
-      product.precio != null
+      hasPrice(product.precio)
         ? {
             "@type": "Offer",
             url: productUrl,
@@ -177,17 +172,17 @@ export default async function ProductoPage({ params }: Params) {
           )}
 
           <div className="flex flex-col gap-1">
-            {product.precio != null && (
+            {hasPrice(product.precio) && (
               <span className="w-fit rounded-full bg-brand/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-brand-dark">
                 Precio contado
               </span>
             )}
             <span className="text-4xl font-extrabold text-brand-dark">
-              {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
+              {formatPrice(product.precio)}
             </span>
           </div>
 
-          {product.precio != null && <InstallmentOptions precio={product.precio} />}
+          {hasPrice(product.precio) && <InstallmentOptions precio={product.precio} />}
 
           <ProductPurchasePanel product={product} />
 

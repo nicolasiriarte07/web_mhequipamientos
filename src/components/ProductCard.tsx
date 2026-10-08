@@ -2,12 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/lib/types";
 import { AddToCartButton } from "@/components/AddToCartButton";
-
-const priceFormatter = new Intl.NumberFormat("es-AR", {
-  style: "currency",
-  currency: "ARS",
-  maximumFractionDigits: 0,
-});
+import { formatPrice } from "@/lib/price";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
@@ -47,7 +42,7 @@ export function ProductCard({ product }: { product: Product }) {
 
         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-3">
           <span className="text-lg font-extrabold text-brand-dark sm:text-xl">
-            {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
+            {formatPrice(product.precio)}
           </span>
           <AddToCartButton
             product={product}

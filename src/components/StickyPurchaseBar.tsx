@@ -5,12 +5,7 @@ import type { Product } from "@/lib/types";
 import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { useStickyBar } from "@/context/StickyBarContext";
-
-const priceFormatter = new Intl.NumberFormat("es-AR", {
-  style: "currency",
-  currency: "ARS",
-  maximumFractionDigits: 0,
-});
+import { formatPrice } from "@/lib/price";
 
 export function StickyPurchaseBar({ product, anchorId }: { product: Product; anchorId: string }) {
   const { active, setActive } = useStickyBar();
@@ -38,9 +33,7 @@ export function StickyPurchaseBar({ product, anchorId }: { product: Product; anc
     <div className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-black/10 bg-white p-3 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] sm:hidden">
       <div className="min-w-0 flex-1">
         <p className="truncate text-xs text-gray-500">{product.titulo}</p>
-        <p className="text-lg font-extrabold text-brand-dark">
-          {product.precio != null ? priceFormatter.format(product.precio) : "Consultar"}
-        </p>
+        <p className="text-lg font-extrabold text-brand-dark">{formatPrice(product.precio)}</p>
       </div>
       <a
         href={whatsappUrl(`Hola! Quiero consultar por: ${product.titulo}`)}

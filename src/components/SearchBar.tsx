@@ -4,12 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { searchProductSuggestions, type ProductSuggestion } from "@/lib/productSuggestions";
-
-const priceFormatter = new Intl.NumberFormat("es-AR", {
-  style: "currency",
-  currency: "ARS",
-  maximumFractionDigits: 0,
-});
+import { formatPrice } from "@/lib/price";
 
 export function SearchBar({
   initialValue = "",
@@ -121,7 +116,7 @@ export function SearchBar({
                       </span>
                       {product.precio != null && (
                         <span className="block text-xs font-semibold text-brand-dark">
-                          {priceFormatter.format(product.precio)}
+                          {formatPrice(product.precio)}
                         </span>
                       )}
                     </span>

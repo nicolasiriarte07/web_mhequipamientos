@@ -7,6 +7,7 @@ import { whatsappUrl } from "@/lib/contact";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { event } from "@/lib/gtag";
 import { event as fbEvent } from "@/lib/fbpixel";
+import { formatPrice, hasPrice } from "@/lib/price";
 
 const priceFormatter = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -20,9 +21,10 @@ export function CarritoClient() {
   const orderMessage = [
     "Hola! Quiero hacer este pedido:",
     "",
-    ...items.map(
-      ({ product, quantity }) =>
-        `- ${quantity}x ${product.titulo} — ${priceFormatter.format(product.precio ?? 0)} c/u`
+    ...items.map(({ product, quantity }) =>
+      hasPrice(product.precio)
+        ? `- ${quantity}x ${product.titulo} — ${priceFormatter.format(product.precio)} c/u`
+        : `- ${quantity}x ${product.titulo} (${formatPrice(product.precio)})`
     ),
     "",
     `Total: ${priceFormatter.format(total)}`,
@@ -79,7 +81,9 @@ export function CarritoClient() {
               />
 
               <span className="w-28 text-right font-semibold text-gray-900">
-                {priceFormatter.format((product.precio ?? 0) * quantity)}
+                {hasPrice(product.precio)
+                  ? priceFormatter.format(product.precio * quantity)
+                  : formatPrice(product.precio)}
               </span>
 
               <button
