@@ -281,21 +281,21 @@ export async function getProductsByCategorySlug(slug: string, limit = 12): Promi
   return data ?? [];
 }
 
-export async function getProductsByIds(ids: number[]): Promise<Product[]> {
-  if (ids.length === 0) return [];
-
+export async function getProductsByRubro(slug: string, limit = 20): Promise<Product[]> {
   const { data, error } = await supabase
     .from("productos")
     .select("*, categorias(*)")
-    .in("id", ids);
+    .eq("disponible", true)
+    .contains("rubros", [slug])
+    .order("entrega_inmediata", { ascending: false })
+    .order("precio", { ascending: true })
+    .limit(limit);
 
   if (error) {
-    console.error(`Error cargando productos por ID (${ids.join(", ")}):`, error.message);
+    console.error(`Error cargando productos del rubro ${slug}:`, error.message);
     return [];
   }
-
-  const byId = new Map((data ?? []).map((p) => [p.id, p]));
-  return ids.map((id) => byId.get(id)).filter((p): p is Product => p != null);
+  return data ?? [];
 }
 
 export async function getBriketMaster(): Promise<Product[]> {

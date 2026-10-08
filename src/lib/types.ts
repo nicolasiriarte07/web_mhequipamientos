@@ -25,6 +25,7 @@ export type Product = {
   disponible: boolean;
   entrega_inmediata: boolean;
   created_at: string;
+  rubros?: string[] | null;
   categorias?: Category | null;
   producto_imagenes?: ProductImage[];
 };

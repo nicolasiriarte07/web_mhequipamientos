@@ -181,8 +181,9 @@ export function ProjectSimulator({
 
         {showNoResults && (
           <p className="rounded-xl bg-amber-50 p-4 text-sm text-amber-800">
-            No tenemos productos con entrega inmediata para este rubro en este momento. Probá con
-            otro tiempo estimado o escribinos directo por WhatsApp.
+            {urgencia === "urgente"
+              ? "No tenemos productos con entrega inmediata para este rubro en este momento. Probá con otro tiempo estimado o escribinos directo por WhatsApp."
+              : "Todavía no tenemos productos cargados para este rubro. Escribinos por WhatsApp y te asesoramos igual."}
           </p>
         )}
 

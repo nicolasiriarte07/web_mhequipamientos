@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getProductsByIds } from "@/lib/data";
+import { getProductsByRubro } from "@/lib/data";
 import { BUSINESS_PRODUCT_TABS } from "@/lib/businessProductTabs";
 import { ProjectSimulator } from "@/components/ProjectSimulator";
 import type { Product } from "@/lib/types";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function ArmaTuNegocioPage() {
   const businessTabProducts = await Promise.all(
-    BUSINESS_PRODUCT_TABS.map((tab) => getProductsByIds([...tab.productIds]))
+    BUSINESS_PRODUCT_TABS.map((tab) => getProductsByRubro(tab.slug))
   );
   const productsByTab: Record<string, Product[]> = Object.fromEntries(
     BUSINESS_PRODUCT_TABS.map((tab, i) => [tab.slug, businessTabProducts[i]])
